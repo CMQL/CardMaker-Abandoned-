@@ -51,6 +51,8 @@ Partial Class Form1
         Me.CmdMake = New System.Windows.Forms.Button()
         Me.CmdClear = New System.Windows.Forms.Button()
         Me.FBDCardPic = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ChkUnit = New System.Windows.Forms.CheckBox()
+        Me.ChkKWord = New System.Windows.Forms.CheckBox()
         Me.GrpCardInfo.SuspendLayout()
         Me.GrpCard.SuspendLayout()
         CType(Me.PicCard, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,6 +60,8 @@ Partial Class Form1
         '
         'GrpCardInfo
         '
+        Me.GrpCardInfo.Controls.Add(Me.ChkKWord)
+        Me.GrpCardInfo.Controls.Add(Me.ChkUnit)
         Me.GrpCardInfo.Controls.Add(Me.CmdAddPic)
         Me.GrpCardInfo.Controls.Add(Me.TxtDescribe)
         Me.GrpCardInfo.Controls.Add(Me.Label1)
@@ -98,17 +102,17 @@ Partial Class Form1
         'TxtDescribe
         '
         Me.TxtDescribe.Font = New System.Drawing.Font("宋体", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtDescribe.Location = New System.Drawing.Point(106, 490)
+        Me.TxtDescribe.Location = New System.Drawing.Point(106, 536)
         Me.TxtDescribe.Multiline = True
         Me.TxtDescribe.Name = "TxtDescribe"
-        Me.TxtDescribe.Size = New System.Drawing.Size(353, 135)
+        Me.TxtDescribe.Size = New System.Drawing.Size(353, 89)
         Me.TxtDescribe.TabIndex = 18
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("黑体", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label1.Location = New System.Drawing.Point(19, 489)
+        Me.Label1.Location = New System.Drawing.Point(19, 536)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(106, 29)
         Me.Label1.TabIndex = 17
@@ -316,6 +320,28 @@ Partial Class Form1
         Me.CmdClear.Text = "清空"
         Me.CmdClear.UseVisualStyleBackColor = True
         '
+        'ChkUnit
+        '
+        Me.ChkUnit.AutoSize = True
+        Me.ChkUnit.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ChkUnit.Location = New System.Drawing.Point(106, 498)
+        Me.ChkUnit.Name = "ChkUnit"
+        Me.ChkUnit.Size = New System.Drawing.Size(107, 20)
+        Me.ChkUnit.TabIndex = 20
+        Me.ChkUnit.Text = "是作战单位"
+        Me.ChkUnit.UseVisualStyleBackColor = True
+        '
+        'ChkKWord
+        '
+        Me.ChkKWord.AutoSize = True
+        Me.ChkKWord.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ChkKWord.Location = New System.Drawing.Point(336, 498)
+        Me.ChkKWord.Name = "ChkKWord"
+        Me.ChkKWord.Size = New System.Drawing.Size(123, 20)
+        Me.ChkKWord.TabIndex = 21
+        Me.ChkKWord.Text = "是关键字咒语"
+        Me.ChkKWord.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -364,4 +390,6 @@ Partial Class Form1
     Friend WithEvents CmdClear As Button
     Friend WithEvents FBDCardPic As FolderBrowserDialog
     Friend WithEvents CmdAddPic As Button
+    Friend WithEvents ChkKWord As CheckBox
+    Friend WithEvents ChkUnit As CheckBox
 End Class

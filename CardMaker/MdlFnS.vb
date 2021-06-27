@@ -23,12 +23,12 @@
     Public Const CARD = 8 '卡图
 
     Public Const HPY = 1100 '属性纵坐标
-    Public Const HPX = 500 'HP属性横中线坐标
-    Public Const MPX = 425 '蓝
+    Public Const HPX = 450 'HP属性横中线坐标
+    Public Const MPX = 375 '蓝
     Public Const MPY = 1250 '蓝
-    Public Const ATKX = 350 '攻
+    Public Const ATKX = 300 '攻
     Public Const ATKY = 1400 '攻
-    Public Const DEFX = 275 '防
+    Public Const DEFX = 225 '防
     Public Const DEFY = 1550 '防
     'Public Const EFFX =
     Public Const EFFY = 515
