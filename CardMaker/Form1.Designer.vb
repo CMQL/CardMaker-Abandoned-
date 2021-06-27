@@ -276,7 +276,7 @@ Partial Class Form1
         Me.GrpCard.Controls.Add(Me.PicCard)
         Me.GrpCard.Location = New System.Drawing.Point(510, 12)
         Me.GrpCard.Name = "GrpCard"
-        Me.GrpCard.Size = New System.Drawing.Size(476, 644)
+        Me.GrpCard.Size = New System.Drawing.Size(567, 644)
         Me.GrpCard.TabIndex = 1
         Me.GrpCard.TabStop = False
         Me.GrpCard.Text = "卡牌预览"
@@ -287,7 +287,7 @@ Partial Class Form1
         Me.PicCard.Image = CType(resources.GetObject("PicCard.Image"), System.Drawing.Image)
         Me.PicCard.Location = New System.Drawing.Point(6, 19)
         Me.PicCard.Name = "PicCard"
-        Me.PicCard.Size = New System.Drawing.Size(464, 619)
+        Me.PicCard.Size = New System.Drawing.Size(555, 619)
         Me.PicCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PicCard.TabIndex = 0
         Me.PicCard.TabStop = False
@@ -320,11 +320,12 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(998, 750)
+        Me.ClientSize = New System.Drawing.Size(1087, 750)
         Me.Controls.Add(Me.CmdClear)
         Me.Controls.Add(Me.CmdMake)
         Me.Controls.Add(Me.GrpCard)
         Me.Controls.Add(Me.GrpCardInfo)
+        Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.Text = "Form1"
         Me.GrpCardInfo.ResumeLayout(False)

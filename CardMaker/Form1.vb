@@ -4,17 +4,14 @@
 Public Class Form1
 
 
-
-
-
     Dim mulc As Boolean = False '是否多色
 
     ' Dim Nlen As Integer
 
 
     Private Sub TxtName_TextChanged(sender As Object, e As EventArgs) Handles TxtName.TextChanged
-        Tfont = New Font("黑体", 72, FontStyle.Bold)
-        Tbrush = New SolidBrush(Color.Red)
+        Tfont = New Font("黑体", 108, FontStyle.Bold)
+        Tbrush = New SolidBrush(Color.White)
         Call DrawCard(CDNAME)
     End Sub
 
@@ -23,7 +20,7 @@ Public Class Form1
         '费用使用特殊表示元素，不使用文字
 
         mulc = False
-        End If
+        '
     End Sub
     Private Sub TxtCost_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtCost.KeyPress
         If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) _
@@ -43,15 +40,21 @@ Public Class Form1
     End Sub
 
     Private Sub TxtMP_TextChanged(sender As Object, e As EventArgs) Handles TxtMP.TextChanged
-
+        Sfont = New Font("黑体", 96, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.Blue)
+        Call DrawCard(MP)
     End Sub
 
     Private Sub TxtATK_TextChanged(sender As Object, e As EventArgs) Handles TxtATK.TextChanged
-
+        Sfont = New Font("黑体", 96, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.DarkRed)
+        Call DrawCard(ATK)
     End Sub
 
     Private Sub TxtDEF_TextChanged(sender As Object, e As EventArgs) Handles TxtDEF.TextChanged
-
+        Sfont = New Font("黑体", 96, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.Green)
+        Call DrawCard(DEF)
     End Sub
     Private Sub TxtPicAddress_Click(sender As Object, e As EventArgs) Handles TxtPicAddress.Click
         If TxtPicAddress.Text = INITXTCPA Then
@@ -61,7 +64,9 @@ Public Class Form1
 
 
     Private Sub TxtEffect_TextChanged(sender As Object, e As EventArgs) Handles TxtEffect.TextChanged
-
+        Sfont = New Font("黑体", 48, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.Blue)
+        Call DrawCard(EFF)
     End Sub
 
     Private Sub TxtDescribe_TextChanged(sender As Object, e As EventArgs) Handles TxtDescribe.TextChanged
@@ -102,6 +107,24 @@ Public Class Form1
         CdP = New Bitmap(TxtPicAddress.Text)
 
         Call DrawCard(CARD)
+
+    End Sub
+
+    Private Sub TxtHP_TextChanged(sender As Object, e As EventArgs) Handles TxtHP.TextChanged
+        Sfont = New Font("黑体", 96, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.Red)
+        Call DrawCard(HP)
+    End Sub
+
+    Private Sub TxtHP_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtHP.KeyPress
+        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub PicCard_Click(sender As Object, e As EventArgs) Handles PicCard.Click
 
     End Sub
 End Class
