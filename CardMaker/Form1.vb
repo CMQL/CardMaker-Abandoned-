@@ -64,8 +64,8 @@ Public Class Form1
 
 
     Private Sub TxtEffect_TextChanged(sender As Object, e As EventArgs) Handles TxtEffect.TextChanged
-        Sfont = New Font("黑体", 48, FontStyle.Bold)
-        Sbrush = New SolidBrush(Color.Blue)
+        Sfont = New Font("黑体", 60, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.Black)
         Call DrawCard(EFF)
     End Sub
 
