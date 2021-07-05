@@ -31,17 +31,30 @@
     Public Const DEFX = 225 '防
     Public Const DEFY = 1550 '防
     'Public Const EFFX =
-    Public Const EFFY = 515
+    Public Const EFFY = 510
+
+    '位置偏移
+    Public Const MVX = 100
+    Public Const MVY = 50
 
     Public Const INITXTCPA = "输入图片地址或点击""…""浏览" '缺省文字
+
+
+    Public Const FLL = "暂定首行七个字" '行总长计算文本
+    Public Const SLL = "二行为七加二共九字"
+    Public Const TLL = "三行比二行只多一十字"
+    Public Const QLL = "四行超过三行二字则十二字"
+    Public Const CLL = "五行是比四行再多两个字十四字"
 
 
     Public CdP As Bitmap '卡图
     Public GcP As Graphics '图刷
     '---------------------
+    Public CdB4C As Bitmap '计算用原版图
     Public CdB As Bitmap '卡底（不得妄动）
     Public GbP As Graphics '底刷
 
+    Public BwP4C As Bitmap '计算用刷
     Public BwP As Bitmap '源中间量
     Public GwP As Graphics '源刷
 
@@ -57,9 +70,15 @@
     Public Dfont As Font '描述
     Public Dbrush As SolidBrush
 
-    Dim Nlen As Integer
+    Public Nwritten As Integer = 0 '已写行数，用于清除
 
     Public poc As Integer = 0 '是否包含阵营符，数字表示数目，仅在1（和2）改变
+
+    'Public pastDrawTxt As String() = {"", "", "", "", ""} '旧文本，用于动态变化
+
+
+
+
 
     Private Sub DrawTextOutlined(txt As String, ByRef g As Graphics, f As Font, b As SolidBrush, p As Pen, r As Rectangle)
         'Dim grp As Graphics = Me.CreateGraphics
@@ -90,6 +109,25 @@
 
         gp.Dispose()
     End Sub
+
+    Private Sub CardBackChange()
+        'CDNAME = 0 '卡名索引
+        'Public Const COST = 1 '费用
+        'Public Const HP = 2 'HP
+        'Public Const MP = 3 'MP
+        'Public Const ATK = 4 'MP
+        'Public Const DEF = 5 'MP
+        'Public Const EFF = 6 '效果
+        'Public Const DES = 7 '描述
+        'Public Const CARD = 8 '卡图
+        DrawCard(CDNAME)
+        DrawCard(HP)
+        DrawCard(MP)
+        DrawCard(ATK)
+        DrawCard(DEF)
+        DrawCard(EFF)
+        DrawCard(CARD)
+    End Sub
     Public Sub DrawCard(DrawPart As Integer)
         'BwP = New Bitmap(CdB) '进入工作间
         GwP = Graphics.FromImage(BwP)
@@ -99,7 +137,7 @@
         '擦除工
 
         Select Case DrawPart
-            Case 0 '卡名
+            Case 0 '卡名;
                 'X坐标完全正常，效果文字向左平移
                 '说明实际情况应是width中留白的区域在使用中被消除，导致实际文字向左移动
                 '（已解决，问题出在GraphicsPath的AddString中，位置存在偏移且尺寸有留白，引起bug，需要对执行点进行特殊调整）
@@ -113,7 +151,7 @@
 
                 Dim Wheight As Integer = GwP.MeasureString(Form1.TxtName.Text, Tfont).Height
 
-                Dim recD As New Rectangle((BwP.Width - Wwidth) / 2 , 200, Wwidth, Wheight)
+                Dim recD As New Rectangle((BwP4C.Width - Wwidth) / 2 + MVX, 200 + MVY, Wwidth, Wheight)
                 Dim recB As New Rectangle(0, recD.Y, CdB.Width, Wheight)
                 Dim recV As New Rectangle(0, recD.Y, CdB.Width, VNheight)
                 'GwP.FillRectangle(New SolidBrush(Color.Red), recV)
@@ -157,7 +195,7 @@
                 Dim Wwidth As Integer = GwP.MeasureString(Form1.TxtHP.Text, Sfont).Width
                 Dim Wheight As Integer = GwP.MeasureString(Form1.TxtHP.Text, Sfont).Height
 
-                Dim recD As New Rectangle(HPX, HPY, Wwidth, Wheight)
+                Dim recD As New Rectangle(HPX + MVX, HPY + MVY, Wwidth, Wheight)
                 'Dim recB As New Rectangle(0, recD.Y, recD.X + Wwidth, Wheight)
                 Dim recV As New Rectangle(recD.X, recD.Y, VNwidth, VNheight)
 
@@ -183,7 +221,7 @@
                 Dim Wwidth As Integer = GwP.MeasureString(Form1.TxtMP.Text, Sfont).Width
                 Dim Wheight As Integer = GwP.MeasureString(Form1.TxtMP.Text, Sfont).Height
 
-                Dim recD As New Rectangle(MPX, MPY, Wwidth, Wheight)
+                Dim recD As New Rectangle(MPX + MVX, MPY + MVY, Wwidth, Wheight)
                 'Dim recB As New Rectangle(0, recD.Y, recD.X + Wwidth, Wheight)
                 Dim recV As New Rectangle(recD.X, recD.Y, VNwidth, VNheight)
 
@@ -208,7 +246,7 @@
                 Dim Wwidth As Integer = GwP.MeasureString(Form1.TxtATK.Text, Sfont).Width
                 Dim Wheight As Integer = GwP.MeasureString(Form1.TxtATK.Text, Sfont).Height
 
-                Dim recD As New Rectangle(ATKX, ATKY, Wwidth, Wheight)
+                Dim recD As New Rectangle(ATKX + MVX, ATKY + MVY, Wwidth, Wheight)
                 'Dim recB As New Rectangle(0, recD.Y, recD.X + Wwidth, Wheight)
                 Dim recV As New Rectangle(recD.X, recD.Y, VNwidth, VNheight)
 
@@ -233,7 +271,7 @@
                 Dim Wwidth As Integer = GwP.MeasureString(Form1.TxtDEF.Text, Sfont).Width
                 Dim Wheight As Integer = GwP.MeasureString(Form1.TxtDEF.Text, Sfont).Height
 
-                Dim recD As New Rectangle(DEFX, DEFY, Wwidth, Wheight)
+                Dim recD As New Rectangle(DEFX + MVX, DEFY + MVY, Wwidth, Wheight)
                 'Dim recB As New Rectangle(0, recD.Y, recD.X + Wwidth, Wheight)
                 Dim recV As New Rectangle(recD.X, recD.Y, VNwidth, VNheight)
 
@@ -253,61 +291,81 @@
                 End If
             Case 6 '效果
                 'GwP.RotateTransform(-30.0F)
-                Dim VNheight As Integer = GwP.MeasureString("VOID", Sfont).Height
+                '每一次变化执行一次
+                '获取全部文本，然后进行检测
+                '设标记a为当前所在位置，每当a所经过文字达到行长度限数或a指向换行符时，换行
+                '设h为行数，用以标记行所在及方便行长度计算
+                '将每一行单独提取作为一个stirng
+                '设string数组储存全部内容
+                '遍历数组并居中绘制
+                Dim allTxt As String = Form1.TxtEffect.Text
+                Dim pMark As Integer = 0
+                Dim hMark As Integer = 0
+                Dim drawTxt As String() = {"", "", "", "", ""}
 
-                Dim FVNwidth As Integer = GwP.MeasureString("第一试验用文字", Sfont).Width
-                Dim SVNwidth As Integer = GwP.MeasureString("第二试验用文字长一点点", Sfont).Width
-                'Const 
-                Dim Wwidth As Integer = GwP.MeasureString(Form1.TxtEffect.Text, Sfont).Width
-                Dim Wheight As Integer = GwP.MeasureString(Form1.TxtEffect.Text, Sfont).Height
+                '上限尺寸，用于清除
 
-                Dim recD As New Rectangle((BwP.Width - Wwidth) / 2, EFFY, Wwidth, Wheight)
-                Dim recB As New Rectangle(0, recD.Y, recD.X + Wwidth, Wheight)
-                Dim recV As New Rectangle(0, recD.Y, recD.X + Wwidth - 1, VNheight)
+                Dim Theight As Integer = GwP.MeasureString(FLL, Sfont).Height
+                Dim FLTwidth As Integer = GwP.MeasureString(FLL, Sfont).Width '此处应为最大长度对应的文本 第一行
+                Dim SLTwidth As Integer = GwP.MeasureString(SLL, Sfont).Width '此处应为最大长度对应的文本   二
+                Dim TLTwidth As Integer = GwP.MeasureString(TLL, Sfont).Width '此处应为最大长度对应的文本   三
+                Dim QLTwidth As Integer = GwP.MeasureString(QLL, Sfont).Width '此处应为最大长度对应的文本   四
+                Dim CLTwidth As Integer = GwP.MeasureString(CLL, Sfont).Width '此处应为最大长度对应的文本   五
+                Dim widthS As Integer() = {FLTwidth, SLTwidth, TLTwidth, QLTwidth, CLTwidth} '统合
+                Dim widthRS As Integer() = {0, 0, 0, 0, 0} '实际统合
 
-                If GwP.MeasureString(Form1.TxtEffect.Text, Sfont).Width <= FVNwidth Then
-                    For x As Integer = recD.X To recD.X + Wwidth - 1
-                        For y As Integer = recD.Y To recD.Y + VNheight - 1
+                '************************************'
+
+                For i As Integer = 0 To Nwritten
+                    For x As Integer = (BwP4C.Width - widthS(i)) / 2 + MVX To (BwP4C.Width + widthS(i)) / 2 + MVX - 1
+                        For y As Integer = EFFY + i * Theight + MVY To EFFY + (i + 1) * Theight + MVY - 1
                             BwP.SetPixel(x, y, Color.Transparent)
                         Next
                     Next
-                ElseIf GwP.MeasureString(Form1.TxtEffect.Text, Sfont).Width <= SVNwidth Then
-                    Dim fLine As String = Mid(Form1.TxtEffect.Text, 1, 7)
-                    Dim sLine As String = Mid(Form1.TxtEffect.Text, 8)
-                    Dim SLwidth As Integer = GwP.MeasureString(sLine, Sfont).Width
+                    Dim recC As New Rectangle((BwP4C.Width - widthS(i)) / 2 + MVX, EFFY + i * Theight + MVY, widthS(i), Theight)
+                    GwP.DrawImage(CdB, recC, recC, GraphicsUnit.Pixel)
+                Next
 
-                    'Dim recD1 As New Rectangle((BwP.Width - FVNwidth) / 2, EFFY, FVNwidth, Wheight)
-
-                    Dim recD2 As New Rectangle((BwP.Width - SLwidth) / 2, EFFY + VNheight, Wwidth, Wheight)
-
-                    For x As Integer = recD.X To recD.X + FVNwidth - 1
-                        For y As Integer = recD.Y To recD.Y + 2 * VNheight - 1
-                            BwP.SetPixel(x, y, Color.Transparent)
-                        Next
-                    Next
-
-
+                If allTxt = "" Then '为空则清除后直接结束，跳过后面
+                    Exit Select
                 End If
-
-                GwP.DrawImage(CdB, recB, recB, GraphicsUnit.Pixel)
-                If Form1.TxtEffect.Text <> "" Then
-                    If GwP.MeasureString(Form1.TxtEffect.Text, Sfont).Width <= FVNwidth Then
-                        GwP.DrawString(Form1.TxtEffect.Text, Sfont, Sbrush, recD)
-                        'Dim HPPen As Pen = New Pen(Color.White, 2)
-                        'DrawTextOutlined(Form1.TxtHP.Text, GwP, Sfont, Sbrush, HPPen, recD)
-                    ElseIf GwP.MeasureString(Form1.TxtEffect.Text, Sfont).Width <= SVNwidth Then
-                        Dim fLine As String = Mid(Form1.TxtEffect.Text, 1, 7)
-                        Dim sLine As String = Mid(Form1.TxtEffect.Text, 8)
-                        Dim SLwidth As Integer = GwP.MeasureString(sLine, Sfont).Width
-
-                        Dim recD1 As New Rectangle((BwP.Width - FVNwidth) / 2, EFFY, FVNwidth, Wheight)
-                        GwP.DrawString(fLine, Sfont, Sbrush, recD)
-                        Dim recD2 As New Rectangle((BwP.Width - SLwidth) / 2, EFFY + VNheight, Wwidth, Wheight)
-                        GwP.DrawString(fLine, Sfont, Sbrush, recD)
+                Do '循环检测
+                    pMark += 1
+                    Dim tempTxt As String = allTxt.Substring(0, pMark)
+                    Dim tempLen As Integer = GwP.MeasureString(tempTxt, Sfont).Width
+                    If allTxt.Substring(pMark - 1, 1) = Chr(10) Or pMark = allTxt.Length Or tempLen >= widthS(hMark) Then
+                        '失败的debug
+                        If pMark < allTxt.Length - 1 Then
+                            If allTxt.Substring(pMark - 1, 1) = Chr(10) And tempLen >= widthS(hMark) Then
+                                Continue Do
+                            End If
+                        End If
+                        '*****************************************************************'
+                        drawTxt(hMark) = allTxt.Substring(0, pMark)
+                        widthRS(hMark) = GwP.MeasureString(drawTxt(hMark), Sfont).Width
+                        allTxt = allTxt.Substring(pMark, allTxt.Length - pMark)
+                        pMark = 0
+                        hMark = hMark + 1
                     End If
-                Else
-                        GwP.DrawImage(CdB, recV, recV, GraphicsUnit.Pixel)
-                End If
+                    Nwritten = hMark
+                    If hMark >= 5 Or allTxt = "" Then '结束退出
+                        Nwritten = 4
+                        Exit Do
+                    End If
+                Loop
+
+                '开始绘制
+                For h = 0 To hMark - 1
+                    '行Y需要一个数组进行标记
+                    Dim recD As New Rectangle((BwP4C.Width - widthRS(h)) / 2 + MVX, EFFY + h * Theight + MVY, widthRS(h), Theight)
+
+                    'GwP.DrawString(drawTxt(h), Sfont, Sbrush, recD)
+                    Dim EffPen As Pen = New Pen(Color.Black, 0)
+                    DrawTextOutlined(drawTxt(h), GwP, Sfont, Sbrush, EffPen, recD)
+                Next
+
+                '***************************************************'
+
             Case 7'描述
             Case 8 '卡图
                 Dim recC As New Rectangle(400, 800, CdP.Width / 2, CdP.Height / 2)

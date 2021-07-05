@@ -15,29 +15,29 @@ Public Class Form1
         Call DrawCard(CDNAME)
     End Sub
 
-    Private Sub TxtCost_TextChanged(sender As Object, e As EventArgs) Handles TxtCost.TextChanged
+    Private Sub TxtCost_TextChanged(sender As Object, e As EventArgs)
         'GcP.DrawString(TxtCost.Text,)
         '费用使用特殊表示元素，不使用文字
 
         mulc = False
         '
     End Sub
-    Private Sub TxtCost_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtCost.KeyPress
-        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) _
-            Or e.KeyChar = "E" Or e.KeyChar = "F" Or e.KeyChar = "G" Or e.KeyChar = "T" Or e.KeyChar = "M" Then
-            'e.Handled = True
-        Else
-            e.Handled = True
-        End If
-        If e.KeyChar = "E" Or e.KeyChar = "F" Or e.KeyChar = "G" Or e.KeyChar = "T" Or e.KeyChar = "M" Then '阵营输入与关联变量
-            poc += 1
-        End If
-        If e.KeyChar = Chr(8) Then '消去阵营
-            If Char.IsLetter(Microsoft.VisualBasic.Right(TxtCost.Text, 1)) Then
-                poc -= 1
-            End If
-        End If
-    End Sub
+    'Private Sub TxtCost_KeyPress(sender As Object, e As KeyPressEventArgs)
+    '    If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) _
+    '        Or e.KeyChar = "E" Or e.KeyChar = "F" Or e.KeyChar = "G" Or e.KeyChar = "T" Or e.KeyChar = "M" Then
+    '        'e.Handled = True
+    '    Else
+    '        e.Handled = True
+    '    End If
+    '    If e.KeyChar = "E" Or e.KeyChar = "F" Or e.KeyChar = "G" Or e.KeyChar = "T" Or e.KeyChar = "M" Then '阵营输入与关联变量
+    '        poc += 1
+    '    End If
+    '    If e.KeyChar = Chr(8) Then '消去阵营
+    '        If Char.IsLetter(Microsoft.VisualBasic.Right(TxtCost.Text, 1)) Then
+    '            poc -= 1
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub TxtMP_TextChanged(sender As Object, e As EventArgs) Handles TxtMP.TextChanged
         Sfont = New Font("黑体", 96, FontStyle.Bold)
@@ -64,8 +64,9 @@ Public Class Form1
 
 
     Private Sub TxtEffect_TextChanged(sender As Object, e As EventArgs) Handles TxtEffect.TextChanged
-        Sfont = New Font("黑体", 48, FontStyle.Bold)
-        Sbrush = New SolidBrush(Color.Blue)
+        Sfont = New Font("黑体", 60, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.Black)
+
         Call DrawCard(EFF)
     End Sub
 
@@ -89,7 +90,10 @@ Public Class Form1
         OFDCardIPic.RestoreDirectory = False
 
         CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB.png")
+        CdB4C = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-O.png")
         BwP = New Bitmap(CdB)
+        BwP4C = New Bitmap(CdB4C)
+
         PicCard.Image = CdB
 
         'GbW = Graphics.FromImage(CdB)
@@ -126,5 +130,19 @@ Public Class Form1
 
     Private Sub PicCard_Click(sender As Object, e As EventArgs) Handles PicCard.Click
 
+    End Sub
+
+    Private Sub TxtEffect_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtEffect.KeyPress
+        Sfont = New Font("黑体", 60, FontStyle.Bold)
+        Sbrush = New SolidBrush(Color.Black)
+
+        Dim tempG As Graphics = Graphics.FromImage(BwP)
+        Dim maxLen As Integer = tempG.MeasureString(FLL & SLL & TLL & QLL & CLL, Sfont).Width
+        Dim txtLen As Integer = tempG.MeasureString(TxtEffect.Text, Sfont).Width
+        If txtLen <= maxLen Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
     End Sub
 End Class
