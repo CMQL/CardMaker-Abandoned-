@@ -37,14 +37,21 @@
     Public Const MVX = 100
     Public Const MVY = 50
 
+    Public Const COSTX = 1420
+    Public Const COSTY = 1580
+
+    '文字数据
     Public Const INITXTCPA = "输入图片地址或点击""…""浏览" '缺省文字
 
 
-    Public Const FLL = "暂定首行七个字" '行总长计算文本
-    Public Const SLL = "二行为七加二共九字"
-    Public Const TLL = "三行比二行只多一十字"
-    Public Const QLL = "四行超过三行二字则十二字"
-    Public Const CLL = "五行是比四行再多两个字十四字"
+    Public Const FLL = "暂定第一行七字" '行总长计算文本
+    Public Const SLL = "第二行十字是七再加三"
+    Public Const TLL = "三行比二行再多三字合十三字"
+    Public Const QLL = "四行超过三行三字比十三多总十六字"
+    Public Const CLL = "五行是最多比四行再多十六加三达到十九字"
+
+    Public costBoardPic As Bitmap
+    Public costBoardGraph As Graphics
 
 
     Public CdP As Bitmap '卡图
@@ -128,6 +135,81 @@
         DrawCard(EFF)
         DrawCard(CARD)
     End Sub
+
+    Public Sub DrawCost(costType As Integer)
+        Dim costDType As Bitmap
+        Dim costDTypeRect As Rectangle
+        Select Case costType
+            Case 0
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
+                costDTypeRect = New Rectangle(COSTX, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
+            Case 1
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\F-S-B.png")
+                costDTypeRect = New Rectangle(COSTX + costDType.Width / 2, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
+            Case 2
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\G-S-B.png")
+                costDTypeRect = New Rectangle(COSTX + costDType.Width / 6, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
+            Case 3
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\M-S-B.png")
+                costDTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY, costDType.Width / 2, costDType.Height / 2)
+            Case 4
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\T-S-B.png")
+                costDTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
+        End Select
+        GwP = Graphics.FromImage(BwP)
+        'Dim costE As Bitmap
+        'costE = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
+
+        GwP.DrawImage(costDType, costDTypeRect)
+        GwP.Dispose()
+        OtB = New Bitmap(BwP)
+        Form1.PicCard.Image = OtB
+    End Sub
+
+    Public Sub ClearCost(costType As Integer)
+        Dim costDType As Bitmap
+        Dim costCTypeRect As Rectangle
+        Dim costSourceCleanRect As Rectangle
+        GwP = Graphics.FromImage(BwP)
+        Select Case costType
+            Case 0
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
+                costCTypeRect = New Rectangle(COSTX, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
+                costSourceCleanRect = New Rectangle(0, costDType.Height, costDType.Width, costDType.Height)
+            Case 1
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\F-S-B.png")
+                costCTypeRect = New Rectangle(COSTX + costDType.Width / 2, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
+                costSourceCleanRect = New Rectangle(costDType.Width, 2 * costDType.Height, costDType.Width, costDType.Height)
+            Case 2
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\G-S-B.png")
+                costCTypeRect = New Rectangle(COSTX + costDType.Width / 6, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
+                costSourceCleanRect = New Rectangle(costDType.Width / 3, 2 * costDType.Height, costDType.Width, costDType.Height)
+            Case 3
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\M-S-B.png")
+                costCTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY, costDType.Width / 2, costDType.Height / 2)
+                costSourceCleanRect = New Rectangle(costDType.Width * 2 / 3, 0, costDType.Width, costDType.Height)
+            Case 4
+                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\T-S-B.png")
+                costCTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
+                costSourceCleanRect = New Rectangle(costDType.Width * 2 / 3, costDType.Height, costDType.Width, costDType.Height)
+        End Select
+
+        'GwP.DrawImage(costDType, costDTypeRect)
+        For x As Integer = costCTypeRect.X To costCTypeRect.X + costCTypeRect.Width - 1
+            For y As Integer = costCTypeRect.Y To costCTypeRect.Y + costCTypeRect.Height - 1
+                BwP.SetPixel(x, y, Color.Transparent)
+            Next
+        Next
+        costBoardPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\C-BG-D.png")
+
+        GwP.DrawImage(CdB, costCTypeRect, costCTypeRect, GraphicsUnit.Pixel)
+        GwP.DrawImage(costBoardPic, costCTypeRect, costSourceCleanRect, GraphicsUnit.Pixel)
+
+        GwP.Dispose()
+        OtB = New Bitmap(BwP)
+        Form1.PicCard.Image = OtB
+    End Sub
+
     Public Sub DrawCard(DrawPart As Integer)
         'BwP = New Bitmap(CdB) '进入工作间
         GwP = Graphics.FromImage(BwP)
@@ -304,7 +386,6 @@
                 Dim drawTxt As String() = {"", "", "", "", ""}
 
                 '上限尺寸，用于清除
-
                 Dim Theight As Integer = GwP.MeasureString(FLL, Sfont).Height
                 Dim FLTwidth As Integer = GwP.MeasureString(FLL, Sfont).Width '此处应为最大长度对应的文本 第一行
                 Dim SLTwidth As Integer = GwP.MeasureString(SLL, Sfont).Width '此处应为最大长度对应的文本   二
@@ -313,19 +394,8 @@
                 Dim CLTwidth As Integer = GwP.MeasureString(CLL, Sfont).Width '此处应为最大长度对应的文本   五
                 Dim widthS As Integer() = {FLTwidth, SLTwidth, TLTwidth, QLTwidth, CLTwidth} '统合
                 Dim widthRS As Integer() = {0, 0, 0, 0, 0} '实际统合
-
+                '此处有清除代码'
                 '************************************'
-
-                For i As Integer = 0 To Nwritten
-                    For x As Integer = (BwP4C.Width - widthS(i)) / 2 + MVX To (BwP4C.Width + widthS(i)) / 2 + MVX - 1
-                        For y As Integer = EFFY + i * Theight + MVY To EFFY + (i + 1) * Theight + MVY - 1
-                            BwP.SetPixel(x, y, Color.Transparent)
-                        Next
-                    Next
-                    Dim recC As New Rectangle((BwP4C.Width - widthS(i)) / 2 + MVX, EFFY + i * Theight + MVY, widthS(i), Theight)
-                    GwP.DrawImage(CdB, recC, recC, GraphicsUnit.Pixel)
-                Next
-
                 If allTxt = "" Then '为空则清除后直接结束，跳过后面
                     Exit Select
                 End If
@@ -333,38 +403,26 @@
                     pMark += 1
                     Dim tempTxt As String = allTxt.Substring(0, pMark)
                     Dim tempLen As Integer = GwP.MeasureString(tempTxt, Sfont).Width
-                    If allTxt.Substring(pMark - 1, 1) = Chr(10) Or pMark = allTxt.Length Or tempLen >= widthS(hMark) Then
-                        '失败的debug
-                        If pMark < allTxt.Length - 1 Then
-                            If allTxt.Substring(pMark - 1, 1) = Chr(10) And tempLen >= widthS(hMark) Then
-                                Continue Do
-                            End If
-                        End If
-                        '*****************************************************************'
+                    If allTxt.Substring(pMark - 1, 1) = Chr(10) Or tempLen > widthS(hMark) Or pMark = allTxt.Length Then
                         drawTxt(hMark) = allTxt.Substring(0, pMark)
                         widthRS(hMark) = GwP.MeasureString(drawTxt(hMark), Sfont).Width
                         allTxt = allTxt.Substring(pMark, allTxt.Length - pMark)
                         pMark = 0
                         hMark = hMark + 1
                     End If
-                    Nwritten = hMark
                     If hMark >= 5 Or allTxt = "" Then '结束退出
-                        Nwritten = 4
                         Exit Do
                     End If
                 Loop
-
                 '开始绘制
                 For h = 0 To hMark - 1
                     '行Y需要一个数组进行标记
-                    Dim recD As New Rectangle((BwP4C.Width - widthRS(h)) / 2 + MVX, EFFY + h * Theight + MVY, widthRS(h), Theight)
-
-                    'GwP.DrawString(drawTxt(h), Sfont, Sbrush, recD)
-                    Dim EffPen As Pen = New Pen(Color.Black, 0)
-                    DrawTextOutlined(drawTxt(h), GwP, Sfont, Sbrush, EffPen, recD)
+                    Dim recD As New Rectangle((BwP.Width - widthRS(h)) / 2, 530, widthRS(h), Theight)
+                    GwP.DrawString(drawTxt(h), Sfont, Sbrush, recD)
                 Next
 
-                '***************************************************'
+
+                '*************************************************
 
             Case 7'描述
             Case 8 '卡图

@@ -98,6 +98,17 @@ Public Class Form1
 
         'GbW = Graphics.FromImage(CdB)
         'GbP = Graphics.FromImage(CdB)
+        '----------------------------------------
+        '添加费用板
+        costBoardPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\C-BG-D.png")
+        'costBoardGraph = Graphics.FromImage(costBoardPic)
+
+        Dim costDrawRect As New Rectangle(COSTX, COSTY, costBoardPic.Width / 2, costBoardPic.Height / 2)
+        GwP = Graphics.FromImage(BwP)
+        GwP.DrawImage(costBoardPic, costDrawRect)
+        GwP.Dispose()
+        OtB = New Bitmap(BwP)
+        PicCard.Image = OtB
 
     End Sub
 
@@ -140,6 +151,101 @@ Public Class Form1
         Dim maxLen As Integer = tempG.MeasureString(FLL & SLL & TLL & QLL & CLL, Sfont).Width
         Dim txtLen As Integer = tempG.MeasureString(TxtEffect.Text, Sfont).Width
         If txtLen <= maxLen Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
+    End Sub
+
+    'checks and txts
+    Private Sub ChkE_CheckedChanged(sender As Object, e As EventArgs) Handles ChkE.CheckedChanged
+        If ChkE.Checked = True Then
+            TxtE.Enabled = True
+            DrawCost(0)
+        Else
+            TxtE.Enabled = False
+            ClearCost(0)
+        End If
+    End Sub
+
+    Private Sub ChkG_CheckedChanged(sender As Object, e As EventArgs) Handles ChkG.CheckedChanged
+        If ChkG.Checked = True Then
+            TxtG.Enabled = True
+            DrawCost(2)
+        Else
+            TxtG.Enabled = False
+            ClearCost(2)
+        End If
+    End Sub
+
+    Private Sub ChkM_CheckedChanged(sender As Object, e As EventArgs) Handles ChkM.CheckedChanged
+        If ChkM.Checked = True Then
+            TxtM.Enabled = True
+            DrawCost(3)
+        Else
+            TxtM.Enabled = False
+            ClearCost(3)
+        End If
+    End Sub
+
+    Private Sub ChkT_CheckedChanged(sender As Object, e As EventArgs) Handles ChkT.CheckedChanged
+        If ChkT.Checked = True Then
+            TxtT.Enabled = True
+            DrawCost(4)
+        Else
+            TxtT.Enabled = False
+            ClearCost(4)
+        End If
+    End Sub
+
+    Private Sub ChkF_CheckedChanged(sender As Object, e As EventArgs) Handles ChkF.CheckedChanged
+        If ChkF.Checked = True Then
+            TxtF.Enabled = True
+            DrawCost(1)
+        Else
+            TxtF.Enabled = False
+            ClearCost(1)
+        End If
+    End Sub
+
+
+    Private Sub TxtE_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtE.KeyPress
+        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
+    End Sub
+    Private Sub TxtM_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtE.KeyPress
+        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
+    End Sub
+    Private Sub TxtT_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtE.KeyPress
+        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
+    End Sub
+    Private Sub TxtG_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtE.KeyPress
+        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
+    End Sub
+    Private Sub TxtF_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtE.KeyPress
+        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Then
+            'e.Handled = True
+        Else
+            e.Handled = True
+        End If
+    End Sub
+    Private Sub TxtAny_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtE.KeyPress
+        If Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Then
             'e.Handled = True
         Else
             e.Handled = True

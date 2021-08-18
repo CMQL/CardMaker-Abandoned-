@@ -24,6 +24,19 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GrpCardInfo = New System.Windows.Forms.GroupBox()
+        Me.TxtAny = New System.Windows.Forms.TextBox()
+        Me.LblAny = New System.Windows.Forms.Label()
+        Me.TxtM = New System.Windows.Forms.TextBox()
+        Me.TxtG = New System.Windows.Forms.TextBox()
+        Me.TxtT = New System.Windows.Forms.TextBox()
+        Me.TxtF = New System.Windows.Forms.TextBox()
+        Me.TxtE = New System.Windows.Forms.TextBox()
+        Me.ChkM = New System.Windows.Forms.CheckBox()
+        Me.ChkG = New System.Windows.Forms.CheckBox()
+        Me.ChkT = New System.Windows.Forms.CheckBox()
+        Me.ChkF = New System.Windows.Forms.CheckBox()
+        Me.ChkE = New System.Windows.Forms.CheckBox()
+        Me.LblCost = New System.Windows.Forms.Label()
         Me.CmdAddPic = New System.Windows.Forms.Button()
         Me.TxtDescribe = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -49,19 +62,6 @@ Partial Class Form1
         Me.CmdMake = New System.Windows.Forms.Button()
         Me.CmdClear = New System.Windows.Forms.Button()
         Me.FBDCardPic = New System.Windows.Forms.FolderBrowserDialog()
-        Me.LblCost = New System.Windows.Forms.Label()
-        Me.ChkE = New System.Windows.Forms.CheckBox()
-        Me.ChkF = New System.Windows.Forms.CheckBox()
-        Me.ChkT = New System.Windows.Forms.CheckBox()
-        Me.ChkG = New System.Windows.Forms.CheckBox()
-        Me.ChkM = New System.Windows.Forms.CheckBox()
-        Me.TxtE = New System.Windows.Forms.TextBox()
-        Me.TxtF = New System.Windows.Forms.TextBox()
-        Me.TxtT = New System.Windows.Forms.TextBox()
-        Me.TxtG = New System.Windows.Forms.TextBox()
-        Me.TxtM = New System.Windows.Forms.TextBox()
-        Me.LblAny = New System.Windows.Forms.Label()
-        Me.TxtAny = New System.Windows.Forms.TextBox()
         Me.GrpCardInfo.SuspendLayout()
         Me.GrpCard.SuspendLayout()
         CType(Me.PicCard, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,6 +106,129 @@ Partial Class Form1
         Me.GrpCardInfo.TabIndex = 0
         Me.GrpCardInfo.TabStop = False
         Me.GrpCardInfo.Text = "卡牌信息"
+        '
+        'TxtAny
+        '
+        Me.TxtAny.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TxtAny.Location = New System.Drawing.Point(414, 489)
+        Me.TxtAny.Name = "TxtAny"
+        Me.TxtAny.Size = New System.Drawing.Size(45, 22)
+        Me.TxtAny.TabIndex = 32
+        '
+        'LblAny
+        '
+        Me.LblAny.AutoSize = True
+        Me.LblAny.Font = New System.Drawing.Font("宋体", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LblAny.Location = New System.Drawing.Point(367, 496)
+        Me.LblAny.Name = "LblAny"
+        Me.LblAny.Size = New System.Drawing.Size(41, 12)
+        Me.LblAny.TabIndex = 31
+        Me.LblAny.Text = "任意："
+        '
+        'TxtM
+        '
+        Me.TxtM.Enabled = False
+        Me.TxtM.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TxtM.Location = New System.Drawing.Point(154, 489)
+        Me.TxtM.Name = "TxtM"
+        Me.TxtM.Size = New System.Drawing.Size(45, 22)
+        Me.TxtM.TabIndex = 30
+        '
+        'TxtG
+        '
+        Me.TxtG.Enabled = False
+        Me.TxtG.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TxtG.Location = New System.Drawing.Point(287, 434)
+        Me.TxtG.Name = "TxtG"
+        Me.TxtG.Size = New System.Drawing.Size(45, 22)
+        Me.TxtG.TabIndex = 29
+        '
+        'TxtT
+        '
+        Me.TxtT.Enabled = False
+        Me.TxtT.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TxtT.Location = New System.Drawing.Point(287, 489)
+        Me.TxtT.Name = "TxtT"
+        Me.TxtT.Size = New System.Drawing.Size(45, 22)
+        Me.TxtT.TabIndex = 28
+        '
+        'TxtF
+        '
+        Me.TxtF.Enabled = False
+        Me.TxtF.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TxtF.Location = New System.Drawing.Point(414, 434)
+        Me.TxtF.Name = "TxtF"
+        Me.TxtF.Size = New System.Drawing.Size(45, 22)
+        Me.TxtF.TabIndex = 27
+        '
+        'TxtE
+        '
+        Me.TxtE.Enabled = False
+        Me.TxtE.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TxtE.Location = New System.Drawing.Point(154, 434)
+        Me.TxtE.Name = "TxtE"
+        Me.TxtE.Size = New System.Drawing.Size(45, 22)
+        Me.TxtE.TabIndex = 26
+        '
+        'ChkM
+        '
+        Me.ChkM.AutoSize = True
+        Me.ChkM.Location = New System.Drawing.Point(118, 492)
+        Me.ChkM.Name = "ChkM"
+        Me.ChkM.Size = New System.Drawing.Size(36, 16)
+        Me.ChkM.TabIndex = 25
+        Me.ChkM.Text = "魔"
+        Me.ChkM.UseVisualStyleBackColor = True
+        '
+        'ChkG
+        '
+        Me.ChkG.AutoSize = True
+        Me.ChkG.Location = New System.Drawing.Point(245, 437)
+        Me.ChkG.Name = "ChkG"
+        Me.ChkG.Size = New System.Drawing.Size(36, 16)
+        Me.ChkG.TabIndex = 24
+        Me.ChkG.Text = "神"
+        Me.ChkG.UseVisualStyleBackColor = True
+        '
+        'ChkT
+        '
+        Me.ChkT.AutoSize = True
+        Me.ChkT.Location = New System.Drawing.Point(245, 492)
+        Me.ChkT.Name = "ChkT"
+        Me.ChkT.Size = New System.Drawing.Size(36, 16)
+        Me.ChkT.TabIndex = 23
+        Me.ChkT.Text = "科"
+        Me.ChkT.UseVisualStyleBackColor = True
+        '
+        'ChkF
+        '
+        Me.ChkF.AutoSize = True
+        Me.ChkF.Location = New System.Drawing.Point(372, 437)
+        Me.ChkF.Name = "ChkF"
+        Me.ChkF.Size = New System.Drawing.Size(36, 16)
+        Me.ChkF.TabIndex = 22
+        Me.ChkF.Text = "斗"
+        Me.ChkF.UseVisualStyleBackColor = True
+        '
+        'ChkE
+        '
+        Me.ChkE.AutoSize = True
+        Me.ChkE.Location = New System.Drawing.Point(118, 437)
+        Me.ChkE.Name = "ChkE"
+        Me.ChkE.Size = New System.Drawing.Size(36, 16)
+        Me.ChkE.TabIndex = 21
+        Me.ChkE.Text = "东"
+        Me.ChkE.UseVisualStyleBackColor = True
+        '
+        'LblCost
+        '
+        Me.LblCost.AutoSize = True
+        Me.LblCost.Font = New System.Drawing.Font("黑体", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LblCost.Location = New System.Drawing.Point(19, 430)
+        Me.LblCost.Name = "LblCost"
+        Me.LblCost.Size = New System.Drawing.Size(106, 29)
+        Me.LblCost.TabIndex = 20
+        Me.LblCost.Text = "费用："
         '
         'CmdAddPic
         '
@@ -319,129 +442,6 @@ Partial Class Form1
         Me.CmdClear.TabIndex = 3
         Me.CmdClear.Text = "清空"
         Me.CmdClear.UseVisualStyleBackColor = True
-        '
-        'LblCost
-        '
-        Me.LblCost.AutoSize = True
-        Me.LblCost.Font = New System.Drawing.Font("黑体", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LblCost.Location = New System.Drawing.Point(19, 430)
-        Me.LblCost.Name = "LblCost"
-        Me.LblCost.Size = New System.Drawing.Size(106, 29)
-        Me.LblCost.TabIndex = 20
-        Me.LblCost.Text = "费用："
-        '
-        'ChkE
-        '
-        Me.ChkE.AutoSize = True
-        Me.ChkE.Location = New System.Drawing.Point(118, 437)
-        Me.ChkE.Name = "ChkE"
-        Me.ChkE.Size = New System.Drawing.Size(36, 16)
-        Me.ChkE.TabIndex = 21
-        Me.ChkE.Text = "东"
-        Me.ChkE.UseVisualStyleBackColor = True
-        '
-        'ChkF
-        '
-        Me.ChkF.AutoSize = True
-        Me.ChkF.Location = New System.Drawing.Point(372, 437)
-        Me.ChkF.Name = "ChkF"
-        Me.ChkF.Size = New System.Drawing.Size(36, 16)
-        Me.ChkF.TabIndex = 22
-        Me.ChkF.Text = "斗"
-        Me.ChkF.UseVisualStyleBackColor = True
-        '
-        'ChkT
-        '
-        Me.ChkT.AutoSize = True
-        Me.ChkT.Location = New System.Drawing.Point(245, 492)
-        Me.ChkT.Name = "ChkT"
-        Me.ChkT.Size = New System.Drawing.Size(36, 16)
-        Me.ChkT.TabIndex = 23
-        Me.ChkT.Text = "科"
-        Me.ChkT.UseVisualStyleBackColor = True
-        '
-        'ChkG
-        '
-        Me.ChkG.AutoSize = True
-        Me.ChkG.Location = New System.Drawing.Point(245, 437)
-        Me.ChkG.Name = "ChkG"
-        Me.ChkG.Size = New System.Drawing.Size(36, 16)
-        Me.ChkG.TabIndex = 24
-        Me.ChkG.Text = "神"
-        Me.ChkG.UseVisualStyleBackColor = True
-        '
-        'ChkM
-        '
-        Me.ChkM.AutoSize = True
-        Me.ChkM.Location = New System.Drawing.Point(118, 492)
-        Me.ChkM.Name = "ChkM"
-        Me.ChkM.Size = New System.Drawing.Size(36, 16)
-        Me.ChkM.TabIndex = 25
-        Me.ChkM.Text = "魔"
-        Me.ChkM.UseVisualStyleBackColor = True
-        '
-        'TxtE
-        '
-        Me.TxtE.Enabled = False
-        Me.TxtE.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtE.Location = New System.Drawing.Point(154, 434)
-        Me.TxtE.Name = "TxtE"
-        Me.TxtE.Size = New System.Drawing.Size(45, 22)
-        Me.TxtE.TabIndex = 26
-        '
-        'TxtF
-        '
-        Me.TxtF.Enabled = False
-        Me.TxtF.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtF.Location = New System.Drawing.Point(414, 434)
-        Me.TxtF.Name = "TxtF"
-        Me.TxtF.Size = New System.Drawing.Size(45, 22)
-        Me.TxtF.TabIndex = 27
-        '
-        'TxtT
-        '
-        Me.TxtT.Enabled = False
-        Me.TxtT.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtT.Location = New System.Drawing.Point(287, 489)
-        Me.TxtT.Name = "TxtT"
-        Me.TxtT.Size = New System.Drawing.Size(45, 22)
-        Me.TxtT.TabIndex = 28
-        '
-        'TxtG
-        '
-        Me.TxtG.Enabled = False
-        Me.TxtG.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtG.Location = New System.Drawing.Point(287, 434)
-        Me.TxtG.Name = "TxtG"
-        Me.TxtG.Size = New System.Drawing.Size(45, 22)
-        Me.TxtG.TabIndex = 29
-        '
-        'TxtM
-        '
-        Me.TxtM.Enabled = False
-        Me.TxtM.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtM.Location = New System.Drawing.Point(154, 489)
-        Me.TxtM.Name = "TxtM"
-        Me.TxtM.Size = New System.Drawing.Size(45, 22)
-        Me.TxtM.TabIndex = 30
-        '
-        'LblAny
-        '
-        Me.LblAny.AutoSize = True
-        Me.LblAny.Font = New System.Drawing.Font("宋体", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LblAny.Location = New System.Drawing.Point(367, 496)
-        Me.LblAny.Name = "LblAny"
-        Me.LblAny.Size = New System.Drawing.Size(41, 12)
-        Me.LblAny.TabIndex = 31
-        Me.LblAny.Text = "任意："
-        '
-        'TxtAny
-        '
-        Me.TxtAny.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtAny.Location = New System.Drawing.Point(414, 489)
-        Me.TxtAny.Name = "TxtAny"
-        Me.TxtAny.Size = New System.Drawing.Size(45, 22)
-        Me.TxtAny.TabIndex = 32
         '
         'Form1
         '
