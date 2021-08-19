@@ -24,6 +24,18 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GrpCardInfo = New System.Windows.Forms.GroupBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadioS = New System.Windows.Forms.RadioButton()
+        Me.RadioR = New System.Windows.Forms.RadioButton()
+        Me.RadioE = New System.Windows.Forms.RadioButton()
+        Me.RadioN = New System.Windows.Forms.RadioButton()
+        Me.RadioAction = New System.Windows.Forms.RadioButton()
+        Me.RadioSocery = New System.Windows.Forms.RadioButton()
+        Me.RadioEnchantment = New System.Windows.Forms.RadioButton()
+        Me.RadioArmor = New System.Windows.Forms.RadioButton()
+        Me.RadioTool = New System.Windows.Forms.RadioButton()
+        Me.RadioUnit = New System.Windows.Forms.RadioButton()
+        Me.ChkHero = New System.Windows.Forms.CheckBox()
         Me.TxtAny = New System.Windows.Forms.TextBox()
         Me.LblAny = New System.Windows.Forms.Label()
         Me.TxtM = New System.Windows.Forms.TextBox()
@@ -55,6 +67,7 @@ Partial Class Form1
         Me.LblDEF = New System.Windows.Forms.Label()
         Me.LblPic = New System.Windows.Forms.Label()
         Me.LblName = New System.Windows.Forms.Label()
+        Me.LblMark = New System.Windows.Forms.Label()
         Me.GrpCard = New System.Windows.Forms.GroupBox()
         Me.PicCard = New System.Windows.Forms.PictureBox()
         Me.OFDCardIPic = New System.Windows.Forms.OpenFileDialog()
@@ -63,12 +76,21 @@ Partial Class Form1
         Me.CmdClear = New System.Windows.Forms.Button()
         Me.FBDCardPic = New System.Windows.Forms.FolderBrowserDialog()
         Me.GrpCardInfo.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.GrpCard.SuspendLayout()
         CType(Me.PicCard, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GrpCardInfo
         '
+        Me.GrpCardInfo.Controls.Add(Me.Panel1)
+        Me.GrpCardInfo.Controls.Add(Me.RadioAction)
+        Me.GrpCardInfo.Controls.Add(Me.RadioSocery)
+        Me.GrpCardInfo.Controls.Add(Me.RadioEnchantment)
+        Me.GrpCardInfo.Controls.Add(Me.RadioArmor)
+        Me.GrpCardInfo.Controls.Add(Me.RadioTool)
+        Me.GrpCardInfo.Controls.Add(Me.RadioUnit)
+        Me.GrpCardInfo.Controls.Add(Me.ChkHero)
         Me.GrpCardInfo.Controls.Add(Me.TxtAny)
         Me.GrpCardInfo.Controls.Add(Me.LblAny)
         Me.GrpCardInfo.Controls.Add(Me.TxtM)
@@ -100,17 +122,149 @@ Partial Class Form1
         Me.GrpCardInfo.Controls.Add(Me.LblDEF)
         Me.GrpCardInfo.Controls.Add(Me.LblPic)
         Me.GrpCardInfo.Controls.Add(Me.LblName)
+        Me.GrpCardInfo.Controls.Add(Me.LblMark)
         Me.GrpCardInfo.Location = New System.Drawing.Point(12, 12)
         Me.GrpCardInfo.Name = "GrpCardInfo"
-        Me.GrpCardInfo.Size = New System.Drawing.Size(477, 645)
+        Me.GrpCardInfo.Size = New System.Drawing.Size(477, 644)
         Me.GrpCardInfo.TabIndex = 0
         Me.GrpCardInfo.TabStop = False
         Me.GrpCardInfo.Text = "卡牌信息"
         '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.RadioS)
+        Me.Panel1.Controls.Add(Me.RadioR)
+        Me.Panel1.Controls.Add(Me.RadioE)
+        Me.Panel1.Controls.Add(Me.RadioN)
+        Me.Panel1.Location = New System.Drawing.Point(106, 560)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(64, 81)
+        Me.Panel1.TabIndex = 45
+        '
+        'RadioS
+        '
+        Me.RadioS.AutoSize = True
+        Me.RadioS.Location = New System.Drawing.Point(0, 62)
+        Me.RadioS.Name = "RadioS"
+        Me.RadioS.Size = New System.Drawing.Size(47, 16)
+        Me.RadioS.TabIndex = 37
+        Me.RadioS.TabStop = True
+        Me.RadioS.Text = "传说"
+        Me.RadioS.UseVisualStyleBackColor = True
+        '
+        'RadioR
+        '
+        Me.RadioR.AutoSize = True
+        Me.RadioR.Location = New System.Drawing.Point(0, 42)
+        Me.RadioR.Name = "RadioR"
+        Me.RadioR.Size = New System.Drawing.Size(47, 16)
+        Me.RadioR.TabIndex = 36
+        Me.RadioR.TabStop = True
+        Me.RadioR.Text = "稀有"
+        Me.RadioR.UseVisualStyleBackColor = True
+        '
+        'RadioE
+        '
+        Me.RadioE.AutoSize = True
+        Me.RadioE.Location = New System.Drawing.Point(0, 21)
+        Me.RadioE.Name = "RadioE"
+        Me.RadioE.Size = New System.Drawing.Size(47, 16)
+        Me.RadioE.TabIndex = 35
+        Me.RadioE.TabStop = True
+        Me.RadioE.Text = "精英"
+        Me.RadioE.UseVisualStyleBackColor = True
+        '
+        'RadioN
+        '
+        Me.RadioN.AutoSize = True
+        Me.RadioN.Location = New System.Drawing.Point(0, 0)
+        Me.RadioN.Name = "RadioN"
+        Me.RadioN.Size = New System.Drawing.Size(47, 16)
+        Me.RadioN.TabIndex = 34
+        Me.RadioN.TabStop = True
+        Me.RadioN.Text = "普通"
+        Me.RadioN.UseVisualStyleBackColor = True
+        '
+        'RadioAction
+        '
+        Me.RadioAction.AutoSize = True
+        Me.RadioAction.Location = New System.Drawing.Point(334, 622)
+        Me.RadioAction.Name = "RadioAction"
+        Me.RadioAction.Size = New System.Drawing.Size(47, 16)
+        Me.RadioAction.TabIndex = 44
+        Me.RadioAction.TabStop = True
+        Me.RadioAction.Text = "动作"
+        Me.RadioAction.UseVisualStyleBackColor = True
+        '
+        'RadioSocery
+        '
+        Me.RadioSocery.AutoSize = True
+        Me.RadioSocery.Location = New System.Drawing.Point(412, 560)
+        Me.RadioSocery.Name = "RadioSocery"
+        Me.RadioSocery.Size = New System.Drawing.Size(47, 16)
+        Me.RadioSocery.TabIndex = 43
+        Me.RadioSocery.TabStop = True
+        Me.RadioSocery.Text = "法术"
+        Me.RadioSocery.UseVisualStyleBackColor = True
+        '
+        'RadioEnchantment
+        '
+        Me.RadioEnchantment.AutoSize = True
+        Me.RadioEnchantment.Location = New System.Drawing.Point(412, 591)
+        Me.RadioEnchantment.Name = "RadioEnchantment"
+        Me.RadioEnchantment.Size = New System.Drawing.Size(47, 16)
+        Me.RadioEnchantment.TabIndex = 42
+        Me.RadioEnchantment.TabStop = True
+        Me.RadioEnchantment.Text = "结界"
+        Me.RadioEnchantment.UseVisualStyleBackColor = True
+        '
+        'RadioArmor
+        '
+        Me.RadioArmor.AutoSize = True
+        Me.RadioArmor.Location = New System.Drawing.Point(412, 622)
+        Me.RadioArmor.Name = "RadioArmor"
+        Me.RadioArmor.Size = New System.Drawing.Size(47, 16)
+        Me.RadioArmor.TabIndex = 41
+        Me.RadioArmor.TabStop = True
+        Me.RadioArmor.Text = "装备"
+        Me.RadioArmor.UseVisualStyleBackColor = True
+        '
+        'RadioTool
+        '
+        Me.RadioTool.AutoSize = True
+        Me.RadioTool.Location = New System.Drawing.Point(334, 591)
+        Me.RadioTool.Name = "RadioTool"
+        Me.RadioTool.Size = New System.Drawing.Size(47, 16)
+        Me.RadioTool.TabIndex = 40
+        Me.RadioTool.TabStop = True
+        Me.RadioTool.Text = "造物"
+        Me.RadioTool.UseVisualStyleBackColor = True
+        '
+        'RadioUnit
+        '
+        Me.RadioUnit.AutoSize = True
+        Me.RadioUnit.Location = New System.Drawing.Point(334, 561)
+        Me.RadioUnit.Name = "RadioUnit"
+        Me.RadioUnit.Size = New System.Drawing.Size(47, 16)
+        Me.RadioUnit.TabIndex = 39
+        Me.RadioUnit.TabStop = True
+        Me.RadioUnit.Text = "单位"
+        Me.RadioUnit.UseVisualStyleBackColor = True
+        '
+        'ChkHero
+        '
+        Me.ChkHero.AutoSize = True
+        Me.ChkHero.Location = New System.Drawing.Point(250, 560)
+        Me.ChkHero.Name = "ChkHero"
+        Me.ChkHero.Size = New System.Drawing.Size(48, 16)
+        Me.ChkHero.TabIndex = 38
+        Me.ChkHero.Text = "英雄"
+        Me.ChkHero.UseVisualStyleBackColor = True
+        '
         'TxtAny
         '
         Me.TxtAny.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtAny.Location = New System.Drawing.Point(414, 489)
+        Me.TxtAny.Location = New System.Drawing.Point(410, 462)
         Me.TxtAny.Name = "TxtAny"
         Me.TxtAny.Size = New System.Drawing.Size(45, 22)
         Me.TxtAny.TabIndex = 32
@@ -119,7 +273,7 @@ Partial Class Form1
         '
         Me.LblAny.AutoSize = True
         Me.LblAny.Font = New System.Drawing.Font("宋体", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LblAny.Location = New System.Drawing.Point(367, 496)
+        Me.LblAny.Location = New System.Drawing.Point(363, 469)
         Me.LblAny.Name = "LblAny"
         Me.LblAny.Size = New System.Drawing.Size(41, 12)
         Me.LblAny.TabIndex = 31
@@ -129,7 +283,7 @@ Partial Class Form1
         '
         Me.TxtM.Enabled = False
         Me.TxtM.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtM.Location = New System.Drawing.Point(154, 489)
+        Me.TxtM.Location = New System.Drawing.Point(150, 462)
         Me.TxtM.Name = "TxtM"
         Me.TxtM.Size = New System.Drawing.Size(45, 22)
         Me.TxtM.TabIndex = 30
@@ -138,7 +292,7 @@ Partial Class Form1
         '
         Me.TxtG.Enabled = False
         Me.TxtG.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtG.Location = New System.Drawing.Point(287, 434)
+        Me.TxtG.Location = New System.Drawing.Point(283, 407)
         Me.TxtG.Name = "TxtG"
         Me.TxtG.Size = New System.Drawing.Size(45, 22)
         Me.TxtG.TabIndex = 29
@@ -147,7 +301,7 @@ Partial Class Form1
         '
         Me.TxtT.Enabled = False
         Me.TxtT.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtT.Location = New System.Drawing.Point(287, 489)
+        Me.TxtT.Location = New System.Drawing.Point(283, 462)
         Me.TxtT.Name = "TxtT"
         Me.TxtT.Size = New System.Drawing.Size(45, 22)
         Me.TxtT.TabIndex = 28
@@ -156,7 +310,7 @@ Partial Class Form1
         '
         Me.TxtF.Enabled = False
         Me.TxtF.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtF.Location = New System.Drawing.Point(414, 434)
+        Me.TxtF.Location = New System.Drawing.Point(410, 407)
         Me.TxtF.Name = "TxtF"
         Me.TxtF.Size = New System.Drawing.Size(45, 22)
         Me.TxtF.TabIndex = 27
@@ -165,7 +319,7 @@ Partial Class Form1
         '
         Me.TxtE.Enabled = False
         Me.TxtE.Font = New System.Drawing.Font("宋体", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtE.Location = New System.Drawing.Point(154, 434)
+        Me.TxtE.Location = New System.Drawing.Point(150, 407)
         Me.TxtE.Name = "TxtE"
         Me.TxtE.Size = New System.Drawing.Size(45, 22)
         Me.TxtE.TabIndex = 26
@@ -173,7 +327,7 @@ Partial Class Form1
         'ChkM
         '
         Me.ChkM.AutoSize = True
-        Me.ChkM.Location = New System.Drawing.Point(118, 492)
+        Me.ChkM.Location = New System.Drawing.Point(114, 465)
         Me.ChkM.Name = "ChkM"
         Me.ChkM.Size = New System.Drawing.Size(36, 16)
         Me.ChkM.TabIndex = 25
@@ -183,7 +337,7 @@ Partial Class Form1
         'ChkG
         '
         Me.ChkG.AutoSize = True
-        Me.ChkG.Location = New System.Drawing.Point(245, 437)
+        Me.ChkG.Location = New System.Drawing.Point(241, 410)
         Me.ChkG.Name = "ChkG"
         Me.ChkG.Size = New System.Drawing.Size(36, 16)
         Me.ChkG.TabIndex = 24
@@ -193,7 +347,7 @@ Partial Class Form1
         'ChkT
         '
         Me.ChkT.AutoSize = True
-        Me.ChkT.Location = New System.Drawing.Point(245, 492)
+        Me.ChkT.Location = New System.Drawing.Point(241, 465)
         Me.ChkT.Name = "ChkT"
         Me.ChkT.Size = New System.Drawing.Size(36, 16)
         Me.ChkT.TabIndex = 23
@@ -203,7 +357,7 @@ Partial Class Form1
         'ChkF
         '
         Me.ChkF.AutoSize = True
-        Me.ChkF.Location = New System.Drawing.Point(372, 437)
+        Me.ChkF.Location = New System.Drawing.Point(368, 410)
         Me.ChkF.Name = "ChkF"
         Me.ChkF.Size = New System.Drawing.Size(36, 16)
         Me.ChkF.TabIndex = 22
@@ -213,7 +367,7 @@ Partial Class Form1
         'ChkE
         '
         Me.ChkE.AutoSize = True
-        Me.ChkE.Location = New System.Drawing.Point(118, 437)
+        Me.ChkE.Location = New System.Drawing.Point(114, 410)
         Me.ChkE.Name = "ChkE"
         Me.ChkE.Size = New System.Drawing.Size(36, 16)
         Me.ChkE.TabIndex = 21
@@ -224,7 +378,7 @@ Partial Class Form1
         '
         Me.LblCost.AutoSize = True
         Me.LblCost.Font = New System.Drawing.Font("黑体", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LblCost.Location = New System.Drawing.Point(19, 430)
+        Me.LblCost.Location = New System.Drawing.Point(15, 403)
         Me.LblCost.Name = "LblCost"
         Me.LblCost.Size = New System.Drawing.Size(106, 29)
         Me.LblCost.TabIndex = 20
@@ -233,9 +387,9 @@ Partial Class Form1
         'CmdAddPic
         '
         Me.CmdAddPic.Font = New System.Drawing.Font("黑体", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.CmdAddPic.Location = New System.Drawing.Point(397, 212)
+        Me.CmdAddPic.Location = New System.Drawing.Point(372, 212)
         Me.CmdAddPic.Name = "CmdAddPic"
-        Me.CmdAddPic.Size = New System.Drawing.Size(62, 48)
+        Me.CmdAddPic.Size = New System.Drawing.Size(105, 28)
         Me.CmdAddPic.TabIndex = 19
         Me.CmdAddPic.Text = "插入图片"
         Me.CmdAddPic.UseVisualStyleBackColor = True
@@ -243,17 +397,17 @@ Partial Class Form1
         'TxtDescribe
         '
         Me.TxtDescribe.Font = New System.Drawing.Font("宋体", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtDescribe.Location = New System.Drawing.Point(106, 542)
+        Me.TxtDescribe.Location = New System.Drawing.Point(106, 501)
         Me.TxtDescribe.Multiline = True
         Me.TxtDescribe.Name = "TxtDescribe"
-        Me.TxtDescribe.Size = New System.Drawing.Size(353, 89)
+        Me.TxtDescribe.Size = New System.Drawing.Size(353, 53)
         Me.TxtDescribe.TabIndex = 18
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("黑体", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label1.Location = New System.Drawing.Point(19, 542)
+        Me.Label1.Location = New System.Drawing.Point(19, 501)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(106, 29)
         Me.Label1.TabIndex = 17
@@ -262,7 +416,7 @@ Partial Class Form1
         'TxtEffect
         '
         Me.TxtEffect.Font = New System.Drawing.Font("宋体", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TxtEffect.Location = New System.Drawing.Point(106, 272)
+        Me.TxtEffect.Location = New System.Drawing.Point(106, 246)
         Me.TxtEffect.Multiline = True
         Me.TxtEffect.Name = "TxtEffect"
         Me.TxtEffect.Size = New System.Drawing.Size(353, 155)
@@ -272,7 +426,7 @@ Partial Class Form1
         '
         Me.LblEffect.AutoSize = True
         Me.LblEffect.Font = New System.Drawing.Font("黑体", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LblEffect.Location = New System.Drawing.Point(19, 271)
+        Me.LblEffect.Location = New System.Drawing.Point(19, 246)
         Me.LblEffect.Name = "LblEffect"
         Me.LblEffect.Size = New System.Drawing.Size(106, 29)
         Me.LblEffect.TabIndex = 15
@@ -294,7 +448,7 @@ Partial Class Form1
         Me.TxtPicAddress.Location = New System.Drawing.Point(106, 174)
         Me.TxtPicAddress.Multiline = True
         Me.TxtPicAddress.Name = "TxtPicAddress"
-        Me.TxtPicAddress.Size = New System.Drawing.Size(285, 76)
+        Me.TxtPicAddress.Size = New System.Drawing.Size(258, 66)
         Me.TxtPicAddress.TabIndex = 13
         Me.TxtPicAddress.Text = "输入图片地址或点击""…""浏览"
         '
@@ -398,6 +552,16 @@ Partial Class Form1
         Me.LblName.TabIndex = 0
         Me.LblName.Text = "名字："
         '
+        'LblMark
+        '
+        Me.LblMark.AutoSize = True
+        Me.LblMark.Font = New System.Drawing.Font("黑体", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LblMark.Location = New System.Drawing.Point(15, 560)
+        Me.LblMark.Name = "LblMark"
+        Me.LblMark.Size = New System.Drawing.Size(106, 29)
+        Me.LblMark.TabIndex = 37
+        Me.LblMark.Text = "标志："
+        '
         'GrpCard
         '
         Me.GrpCard.Controls.Add(Me.PicCard)
@@ -426,7 +590,7 @@ Partial Class Form1
         'CmdMake
         '
         Me.CmdMake.Font = New System.Drawing.Font("微软雅黑", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.CmdMake.Location = New System.Drawing.Point(829, 677)
+        Me.CmdMake.Location = New System.Drawing.Point(914, 677)
         Me.CmdMake.Name = "CmdMake"
         Me.CmdMake.Size = New System.Drawing.Size(157, 61)
         Me.CmdMake.TabIndex = 2
@@ -457,6 +621,8 @@ Partial Class Form1
         Me.Text = "Form1"
         Me.GrpCardInfo.ResumeLayout(False)
         Me.GrpCardInfo.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.GrpCard.ResumeLayout(False)
         CType(Me.PicCard, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -502,4 +668,17 @@ Partial Class Form1
     Friend WithEvents ChkF As CheckBox
     Friend WithEvents ChkE As CheckBox
     Friend WithEvents LblCost As Label
+    Friend WithEvents RadioAction As RadioButton
+    Friend WithEvents RadioSocery As RadioButton
+    Friend WithEvents RadioEnchantment As RadioButton
+    Friend WithEvents RadioArmor As RadioButton
+    Friend WithEvents RadioTool As RadioButton
+    Friend WithEvents RadioUnit As RadioButton
+    Friend WithEvents ChkHero As CheckBox
+    Friend WithEvents LblMark As Label
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents RadioS As RadioButton
+    Friend WithEvents RadioR As RadioButton
+    Friend WithEvents RadioE As RadioButton
+    Friend WithEvents RadioN As RadioButton
 End Class

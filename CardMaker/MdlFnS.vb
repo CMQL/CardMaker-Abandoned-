@@ -40,18 +40,28 @@
     Public Const COSTX = 1420
     Public Const COSTY = 1580
 
+    Public Const MARKX = 185
+    Public Const MARKY = 1920
+
+    Public Const PICX = 400
+    Public Const PICY = 1100
+    Public Const PICW = 1400
+    Public Const PICH = 1050
+
     '文字数据
     Public Const INITXTCPA = "输入图片地址或点击""…""浏览" '缺省文字
 
 
     Public Const FLL = "暂定第一行七字" '行总长计算文本
-    Public Const SLL = "第二行十字是七再加三"
-    Public Const TLL = "三行比二行再多三字合十三字"
-    Public Const QLL = "四行超过三行三字比十三多总十六字"
-    Public Const CLL = "五行是最多比四行再多十六加三达到十九字"
+    Public Const SLL = "第二行九字是七加二"
+    Public Const TLL = "三行比二行多二字十一字"
+    Public Const QLL = "四行超过三行二十一多二十三"
+    Public Const CLL = "五行最多比四行多二十三到十五"
+    '
 
     Public costBoardPic As Bitmap
     Public costBoardGraph As Graphics
+    '
 
 
     Public CdP As Bitmap '卡图
@@ -74,12 +84,118 @@
     Public Sfont As Font '属性
     Public Sbrush As SolidBrush
 
-    Public Dfont As Font '描述
-    Public Dbrush As SolidBrush
+    'Public Cfont As Font '费用
+    'Public Cbrush As SolidBrush
 
     Public Nwritten As Integer = 0 '已写行数，用于清除
 
-    Public poc As Integer = 0 '是否包含阵营符，数字表示数目，仅在1（和2）改变
+    Public monoTypeChosen As Integer = 0 '阵营总代码，1东2神4斗8魔16科
+    Dim costNumber As Integer = 0 '阵营数
+
+    '-------------------------标志
+    Public rtype As Integer = -1
+    Public ttype As Integer = -1
+    Public hs As Boolean = False
+
+    Public Property poc As Integer
+        Get
+            Return costNumber
+        End Get
+        'Set(value As Integer)
+        Set(value As Integer)
+            costNumber = value
+            Form1.PicCard.SizeMode = PictureBoxSizeMode.StretchImage
+            '----------------------------------------底板
+            Select Case costNumber
+                Case 0 '无
+                    CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-N.png")
+                Case 1 '单
+                    Select Case monoTypeChosen
+                        Case 1
+                            CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-E.png")
+                        Case 2
+                            CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-G.png")
+                        Case 8
+                            CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-M.png")
+                        Case 16
+                            CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-T.png")
+                        Case 4
+                            CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-F.png")
+                    End Select
+                Case >= 2 '多
+                    CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-P.png")
+            End Select
+            BwP = New Bitmap(CdB)
+            'GwP = Graphics.FromImage(BwP)
+
+            Form1.PicCard.Image = CdB
+            '---------------------------------------文字
+            '-----------卡名
+            Tfont = New Font("黑体", 108, FontStyle.Bold)
+            Tbrush = New SolidBrush(Color.White)
+            Call DrawCard(CDNAME)
+            '-----------属性
+            Sfont = New Font("黑体", 96, FontStyle.Bold)
+            Sbrush = New SolidBrush(Color.Red)
+            Call DrawCard(HP)
+            Sfont = New Font("黑体", 96, FontStyle.Bold)
+            Sbrush = New SolidBrush(Color.Blue)
+            Call DrawCard(MP)
+            Sfont = New Font("黑体", 96, FontStyle.Bold)
+            Sbrush = New SolidBrush(Color.DarkRed)
+            Call DrawCard(ATK)
+            Sfont = New Font("黑体", 96, FontStyle.Bold)
+            Sbrush = New SolidBrush(Color.Green)
+            Call DrawCard(DEF)
+            '-----------效果
+            Sfont = New Font("黑体", 60, FontStyle.Bold)
+            Sbrush = New SolidBrush(Color.Black)
+            Call DrawCard(EFF)
+            '---------------------------------------卡图和标记
+            Call DrawCard(CARD)
+            Call DrawMark(rtype, ttype, hs)
+            '----------------------------------------费用板
+            costBoardPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\C-BG-D.png")
+            GwP = Graphics.FromImage(BwP)
+
+            Dim costDrawRect As New Rectangle(COSTX, COSTY, costBoardPic.Width / 2, costBoardPic.Height / 2)
+
+            GwP.DrawImage(costBoardPic, costDrawRect)
+            Dim tempMonoTypeChosen As Integer = monoTypeChosen
+            Do Until tempMonoTypeChosen <= 0
+                Select Case tempMonoTypeChosen
+                    Case >= 16 '科
+                        tempMonoTypeChosen -= 16
+                        DrawCost(4)
+                        CostNum(5)
+                    Case >= 8 '魔
+                        tempMonoTypeChosen -= 8
+                        DrawCost(3)
+                        CostNum(4)
+                    Case >= 4 '斗
+                        tempMonoTypeChosen -= 4
+                        DrawCost(1)
+                        CostNum(3)
+                    Case >= 2 '神
+                        tempMonoTypeChosen -= 2
+                        DrawCost(2)
+                        CostNum(2)
+                    Case >= 1 '东
+                        tempMonoTypeChosen -= 1
+                        DrawCost(0)
+                        CostNum(1)
+                End Select
+            Loop
+
+            DrawMark(rtype, ttype, hs)
+
+            CostNum(0)
+
+            GwP.Dispose()
+            OtB = New Bitmap(BwP)
+            Form1.PicCard.Image = OtB
+        End Set
+    End Property
 
     'Public pastDrawTxt As String() = {"", "", "", "", ""} '旧文本，用于动态变化
 
@@ -166,49 +282,138 @@
         Form1.PicCard.Image = OtB
     End Sub
 
-    Public Sub ClearCost(costType As Integer)
-        Dim costDType As Bitmap
-        Dim costCTypeRect As Rectangle
-        Dim costSourceCleanRect As Rectangle
+    Public Sub CostNum(costType As Integer)
+        '费用具体数字
         GwP = Graphics.FromImage(BwP)
+
+        Dim numCost As String '内容
+        Dim costRect As Rectangle '位置矩形
+        Dim costSourceCleanRect As Rectangle '清除矩形
+        Dim Cfont As Font = New Font("黑体", 60, FontStyle.Bold) '费用
+        Dim Cbrush As SolidBrush
+        Dim costG4C As Bitmap = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
+        Dim costC As Bitmap
+        Dim triL As Integer = costG4C.Width / 2
+        Dim triH As Integer = costG4C.Height / 4
+        Dim costTW As Integer
+        Dim costTH As Integer
         Select Case costType
-            Case 0
-                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
-                costCTypeRect = New Rectangle(COSTX, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
-                costSourceCleanRect = New Rectangle(0, costDType.Height, costDType.Width, costDType.Height)
-            Case 1
-                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\F-S-B.png")
-                costCTypeRect = New Rectangle(COSTX + costDType.Width / 2, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
-                costSourceCleanRect = New Rectangle(costDType.Width, 2 * costDType.Height, costDType.Width, costDType.Height)
-            Case 2
-                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\G-S-B.png")
-                costCTypeRect = New Rectangle(COSTX + costDType.Width / 6, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
-                costSourceCleanRect = New Rectangle(costDType.Width / 3, 2 * costDType.Height, costDType.Width, costDType.Height)
-            Case 3
-                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\M-S-B.png")
-                costCTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY, costDType.Width / 2, costDType.Height / 2)
-                costSourceCleanRect = New Rectangle(costDType.Width * 2 / 3, 0, costDType.Width, costDType.Height)
-            Case 4
-                costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\T-S-B.png")
-                costCTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
-                costSourceCleanRect = New Rectangle(costDType.Width * 2 / 3, costDType.Height, costDType.Width, costDType.Height)
+            Case 0 '任意
+                numCost = Form1.TxtAny.Text
+                costC = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\C-BG-D.png") '使用大面板
+                costTW = GwP.MeasureString(numCost, Cfont).Width
+                costTH = GwP.MeasureString(numCost, Cfont).Height
+                costRect = New Rectangle(COSTX + triL / 2 + (triL - costTW) / 2, COSTY + triH + (triH - costTH) / 2 + MVY / 2, costTW, costTH)
+                costSourceCleanRect = New Rectangle(triL + (triL * 2 - costTW) / 2, triH * 2 + (triH * 2 - costTH) / 2, costTW, costTH)
+            Case 1 '东
+                numCost = Form1.TxtE.Text
+                costC = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
+                costTW = GwP.MeasureString(numCost, Cfont).Width
+                costTH = GwP.MeasureString(numCost, Cfont).Height
+                costRect = New Rectangle(COSTX + (triL - costTW) / 2, COSTY + triH * 3 + (triH - costTH) / 2, costTW, costTH)
+                costSourceCleanRect = New Rectangle((triL * 2 - costTW * 2) / 2, triH * 2 + (triH * 2 - costTH * 2) / 2, costTW * 2, costTH * 2)
+            Case 2 '神
+                numCost = Form1.TxtG.Text
+                costC = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\G-S-B.png")
+                costTW = GwP.MeasureString(numCost, Cfont).Width
+                costTH = GwP.MeasureString(numCost, Cfont).Height
+                costRect = New Rectangle(COSTX + triL * 1.1 + (triL * 0.9 - costTW) / 2, COSTY + triH * 2.5 + (triH * 0.5 - costTH) / 2, costTW, costTH)
+                costSourceCleanRect = New Rectangle(triL * 1.2 + (triL * 1.8 - costTW * 2) / 2, triH + (triH - costTH * 2) / 2, costTW * 2, costTH * 2)
+            Case 3 '斗
+                numCost = Form1.TxtF.Text
+                costC = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\F-S-B.png")
+                costTW = GwP.MeasureString(numCost, Cfont).Width
+                costTH = GwP.MeasureString(numCost, Cfont).Height
+                costRect = New Rectangle(COSTX + triL * 2.2 + (triL * 0.8 - costTW) / 2, COSTY + triH * 2.5 + (triH * 0.5 - costTH) / 2, costTW, costTH)
+                costSourceCleanRect = New Rectangle(triL * 1.4 + (triL * 1.6 - costTW * 2) / 2, triH + (triH - costTH * 2) / 2, costTW * 2, costTH * 2)
+            Case 4 '魔
+                numCost = Form1.TxtM.Text '浅色
+                costC = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\M-S-B.png")
+                costTW = GwP.MeasureString(numCost, Cfont).Width
+                costTH = GwP.MeasureString(numCost, Cfont).Height
+                costRect = New Rectangle(COSTX + triL * 1.75 + (triL * 0.75 - costTW) / 2, COSTY + (triH * 0.4 - costTH) / 2, costTW, costTH)
+                costSourceCleanRect = New Rectangle(triL * 1.5 + (triL * 1.5 - costTW * 2) / 2, (triH * 0.8 - costTH * 2) / 2, costTW * 2, costTH * 2)
+            Case 5 '科
+                numCost = Form1.TxtT.Text
+                costC = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\T-S-B.png")
+                costTW = GwP.MeasureString(numCost, Cfont).Width
+                costTH = GwP.MeasureString(numCost, Cfont).Height
+                costRect = New Rectangle(COSTX + triL * 1.75 + (triL * 0.75 - costTW) / 2, COSTY + triH * 1.5 + (triH * 0.5 - costTH) / 2, costTW, costTH)
+                costSourceCleanRect = New Rectangle(triL * 1.5 + (triL * 1.5 - costTW * 2) / 2, triH * 1 + (triH * 1 - costTH * 2) / 2, costTW * 2, costTH * 2)
         End Select
 
-        'GwP.DrawImage(costDType, costDTypeRect)
-        For x As Integer = costCTypeRect.X To costCTypeRect.X + costCTypeRect.Width - 1
-            For y As Integer = costCTypeRect.Y To costCTypeRect.Y + costCTypeRect.Height - 1
+        For x As Integer = costRect.X To costRect.X + costTW - 1
+            For y As Integer = costRect.Y To costRect.Y + costTH - 1
                 BwP.SetPixel(x, y, Color.Transparent)
             Next
         Next
-        costBoardPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\C-BG-D.png")
+        'If costType = 0 Then '大面板
+        GwP.DrawImage(costC, costRect, costSourceCleanRect, GraphicsUnit.Pixel)
+        'Else
+        'GwP.DrawImage(costC, costRect, costSourceCleanRect, GraphicsUnit.Pixel)
+        'End If
+        If numCost <> "" Then
+            'GwP.DrawString(Form1.TxtHP.Text, Sfont, Sbrush, recD)
+            Dim CPen As Pen = New Pen(Color.White, 0)
+            If costType = 4 Then
+                Cbrush = New SolidBrush(Color.White)
+            Else
+                Cbrush = New SolidBrush(Color.Black)
+            End If
+            DrawTextOutlined(numCost, GwP, Cfont, Cbrush, CPen, costRect)
+            Else
+                GwP.DrawImage(costC, costRect, costSourceCleanRect, GraphicsUnit.Pixel)
+        End If
 
-        GwP.DrawImage(CdB, costCTypeRect, costCTypeRect, GraphicsUnit.Pixel)
-        GwP.DrawImage(costBoardPic, costCTypeRect, costSourceCleanRect, GraphicsUnit.Pixel)
 
         GwP.Dispose()
         OtB = New Bitmap(BwP)
         Form1.PicCard.Image = OtB
     End Sub
+
+    'Public Sub ClearCost(costType As Integer)
+    '    Dim costDType As Bitmap
+    '    Dim costCTypeRect As Rectangle
+    '    Dim costSourceCleanRect As Rectangle
+    '    GwP = Graphics.FromImage(BwP)
+    '    Select Case costType
+    '        Case 0
+    '            costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
+    '            costCTypeRect = New Rectangle(COSTX, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
+    '            costSourceCleanRect = New Rectangle(0, costDType.Height, costDType.Width, costDType.Height)
+    '        Case 1
+    '            costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\F-S-B.png")
+    '            costCTypeRect = New Rectangle(COSTX + costDType.Width / 2, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
+    '            costSourceCleanRect = New Rectangle(costDType.Width, 2 * costDType.Height, costDType.Width, costDType.Height)
+    '        Case 2
+    '            costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\G-S-B.png")
+    '            costCTypeRect = New Rectangle(COSTX + costDType.Width / 6, COSTY + costDType.Height, costDType.Width / 2, costDType.Height / 2)
+    '            costSourceCleanRect = New Rectangle(costDType.Width / 3, 2 * costDType.Height, costDType.Width, costDType.Height)
+    '        Case 3
+    '            costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\M-S-B.png")
+    '            costCTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY, costDType.Width / 2, costDType.Height / 2)
+    '            costSourceCleanRect = New Rectangle(costDType.Width * 2 / 3, 0, costDType.Width, costDType.Height)
+    '        Case 4
+    '            costDType = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\T-S-B.png")
+    '            costCTypeRect = New Rectangle(COSTX + costDType.Width / 3, COSTY + costDType.Height / 2, costDType.Width / 2, costDType.Height / 2)
+    '            costSourceCleanRect = New Rectangle(costDType.Width * 2 / 3, costDType.Height, costDType.Width, costDType.Height)
+    '    End Select
+
+    '    'GwP.DrawImage(costDType, costDTypeRect)
+    '    For x As Integer = costCTypeRect.X To costCTypeRect.X + costCTypeRect.Width - 1
+    '        For y As Integer = costCTypeRect.Y To costCTypeRect.Y + costCTypeRect.Height - 1
+    '            BwP.SetPixel(x, y, Color.Transparent)
+    '        Next
+    '    Next
+    '    costBoardPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\C-BG-D.png")
+
+    '    GwP.DrawImage(CdB, costCTypeRect, costCTypeRect, GraphicsUnit.Pixel)
+    '    GwP.DrawImage(costBoardPic, costCTypeRect, costSourceCleanRect, GraphicsUnit.Pixel)
+
+    '    GwP.Dispose()
+    '    OtB = New Bitmap(BwP)
+    '    Form1.PicCard.Image = OtB
+    'End Sub
 
     Public Sub DrawCard(DrawPart As Integer)
         'BwP = New Bitmap(CdB) '进入工作间
@@ -372,6 +577,7 @@
                     GwP.DrawImage(CdB, recV, recV, GraphicsUnit.Pixel)
                 End If
             Case 6 '效果
+
                 'GwP.RotateTransform(-30.0F)
                 '每一次变化执行一次
                 '获取全部文本，然后进行检测
@@ -396,6 +602,15 @@
                 Dim widthRS As Integer() = {0, 0, 0, 0, 0} '实际统合
                 '此处有清除代码'
                 '************************************'
+                For i As Integer = 0 To Nwritten
+                    For x As Integer = (BwP4C.Width - widthS(i)) / 2 + MVX To (BwP4C.Width + widthS(i)) / 2 + MVX - 1
+                        For y As Integer = EFFY + i * Theight + MVY To EFFY + (i + 1) * Theight + MVY - 1
+                            BwP.SetPixel(x, y, Color.Transparent)
+                        Next
+                    Next
+                    Dim recC As New Rectangle((BwP4C.Width - widthS(i)) / 2 + MVX, EFFY + i * Theight + MVY, widthS(i), Theight)
+                    GwP.DrawImage(CdB, recC, recC, GraphicsUnit.Pixel)
+                Next
                 If allTxt = "" Then '为空则清除后直接结束，跳过后面
                     Exit Select
                 End If
@@ -403,30 +618,62 @@
                     pMark += 1
                     Dim tempTxt As String = allTxt.Substring(0, pMark)
                     Dim tempLen As Integer = GwP.MeasureString(tempTxt, Sfont).Width
-                    If allTxt.Substring(pMark - 1, 1) = Chr(10) Or tempLen > widthS(hMark) Or pMark = allTxt.Length Then
+                    If allTxt.Substring(pMark - 1, 1) = Chr(10) Or tempLen >= widthS(hMark) Or pMark = allTxt.Length Then
+                        '失败的debug
+                        If pMark < allTxt.Length - 1 Then
+                            If allTxt.Substring(pMark - 1, 1) = Chr(10) And tempLen >= widthS(hMark) Then
+                                Continue Do
+                            End If
+                        End If
+                        '*****************************************************************'
                         drawTxt(hMark) = allTxt.Substring(0, pMark)
                         widthRS(hMark) = GwP.MeasureString(drawTxt(hMark), Sfont).Width
                         allTxt = allTxt.Substring(pMark, allTxt.Length - pMark)
                         pMark = 0
                         hMark = hMark + 1
                     End If
+                    Nwritten = hMark
                     If hMark >= 5 Or allTxt = "" Then '结束退出
+                        Nwritten = 4
                         Exit Do
                     End If
                 Loop
+
                 '开始绘制
                 For h = 0 To hMark - 1
                     '行Y需要一个数组进行标记
-                    Dim recD As New Rectangle((BwP.Width - widthRS(h)) / 2, 530, widthRS(h), Theight)
-                    GwP.DrawString(drawTxt(h), Sfont, Sbrush, recD)
+                    Dim recD As New Rectangle((BwP4C.Width - widthRS(h)) / 2 + MVX, EFFY + h * Theight + MVY, widthRS(h), Theight)
+
+                    'GwP.DrawString(drawTxt(h), Sfont, Sbrush, recD)
+                    Dim EffPen As Pen = New Pen(Color.Black, 0)
+                    DrawTextOutlined(drawTxt(h), GwP, Sfont, Sbrush, EffPen, recD)
                 Next
+                '        drawTxt(hMark) = allTxt.Substring(0, pMark)
+                '        widthRS(hMark) = GwP.MeasureString(drawTxt(hMark), Sfont).Width
+                '        allTxt = allTxt.Substring(pMark, allTxt.Length - pMark)
+                '        pMark = 0
+                '        hMark = hMark + 1
+                '    End If
+                '    If hMark >= 5 Or allTxt = "" Then '结束退出
+                '        Exit Do
+                '    End If
+                'Loop
+                ''开始绘制
+                'For h = 0 To hMark - 1
+                '    '行Y需要一个数组进行标记
+                '    Dim recD As New Rectangle((BwP4C.Width - widthRS(h)) / 2 + MVX, EFFY + MVY, widthRS(h), Theight)
+                '    GwP.DrawString(drawTxt(h), Sfont, Sbrush, recD)
+                'Next
 
 
                 '*************************************************
 
             Case 7'描述
             Case 8 '卡图
-                Dim recC As New Rectangle(400, 800, CdP.Width / 2, CdP.Height / 2)
+                If IsNothing(CdP) = True Then
+                    Exit Sub
+                End If
+                Dim recC As New Rectangle(PICX, PICY, PICW, PICH)
                 GwP.DrawImage(CdP, recC)
                 OtB = New Bitmap(BwP)
                 Form1.PicCard.Image = OtB
@@ -440,7 +687,192 @@
     Public Sub ClearCard()
         BwP = New Bitmap(CdB)
         GwP = Graphics.FromImage(BwP)
+        OtB = New Bitmap(BwP)
+        Form1.PicCard.Image = OtB
     End Sub
 
+    Public Sub SavXML(ByVal savAdd As String)
+        Dim xmlWS As Xml.XmlWriterSettings = New Xml.XmlWriterSettings()
+        xmlWS.Indent = True
+        xmlWS.NewLineOnAttributes = True
+
+        Using xmlW As Xml.XmlWriter = Xml.XmlWriter.Create(savAdd, xmlWS)
+            xmlW.WriteComment("Save Card Information")
+            xmlW.WriteStartElement("Card_State")
+            xmlW.WriteStartElement("Card_Name")
+            xmlW.WriteAttributeString("Name", Form1.TxtName.Text)
+            xmlW.WriteEndElement()
+            xmlW.WriteStartElement("Card_cost")
+            xmlW.WriteAttributeString("Any", Form1.TxtAny.Text)
+            xmlW.WriteAttributeString("East", Form1.ChkE.Checked & Form1.TxtE.Text)
+            xmlW.WriteAttributeString("God", Form1.ChkG.Checked & Form1.TxtG.Text)
+            xmlW.WriteAttributeString("Fight", Form1.ChkF.Checked & Form1.TxtF.Text)
+            xmlW.WriteAttributeString("Magic", Form1.ChkM.Checked & Form1.TxtM.Text)
+            xmlW.WriteAttributeString("Tech", Form1.ChkT.Checked & Form1.TxtT.Text)
+            xmlW.WriteEndElement()
+            xmlW.WriteStartElement("Card_State")
+            xmlW.WriteAttributeString("HP", Form1.TxtHP.Text)
+            xmlW.WriteAttributeString("MP", Form1.TxtMP.Text)
+            xmlW.WriteAttributeString("ATK", Form1.TxtATK.Text)
+            xmlW.WriteAttributeString("DEF", Form1.TxtDEF.Text)
+            xmlW.WriteEndElement()
+            xmlW.WriteStartElement("Card_Pic") '需要写入图片
+            Using mS4P As IO.MemoryStream = New IO.MemoryStream()
+                CdP.Save(mS4P, Drawing.Imaging.ImageFormat.Png) '卡图
+                Dim picdata As Byte() = mS4P.ToArray()
+                xmlW.WriteBase64(picdata, 0, picdata.Length)
+            End Using
+            Using mS4C As IO.MemoryStream = New IO.MemoryStream()
+                OtB.Save(mS4C, Drawing.Imaging.ImageFormat.Png) '整卡
+                Dim picdata As Byte() = mS4C.ToArray()
+                xmlW.WriteBase64(picdata, 0, picdata.Length)
+            End Using
+            xmlW.WriteEndElement()
+            xmlW.WriteStartElement("Type_and_Rare_Mark")
+            xmlW.WriteAttributeString("Rare", rtype)
+            xmlW.WriteAttributeString("Type", ttype)
+            xmlW.WriteAttributeString("isHero", hs)
+            xmlW.WriteEndElement()
+            xmlW.WriteStartElement("Effect_and_Description")
+            xmlW.WriteAttributeString("Effect", Form1.TxtEffect.Text)
+            xmlW.WriteAttributeString("Description", Form1.TxtDescribe.Text)
+            xmlW.WriteEndElement()
+            xmlW.WriteEndElement()
+            xmlW.Flush()
+        End Using
+    End Sub
+
+
+    Private markDRect As Rectangle
+    Public marked As Boolean
+    Public Sub CleanMark()
+        If marked = False Then
+            Exit Sub
+        End If
+        GwP = Graphics.FromImage(BwP)
+
+        For x As Integer = markDRect.X To markDRect.X - 1
+            For y As Integer = markDRect.Y To markDRect.Y - 1
+                BwP.SetPixel(x, y, Color.Transparent)
+            Next
+        Next
+
+        GwP.DrawImage(CdB, markDRect, markDRect, GraphicsUnit.Pixel)
+        marked = False
+        GwP.Dispose()
+        OtB = New Bitmap(BwP)
+        Form1.PicCard.Image = OtB
+    End Sub
+    Public Sub DrawMark(ByVal rareType As Integer, ByVal typeType As Integer, ByVal isHero As Boolean)
+        If rareType = -1 Or typeType = -1 Then
+            Exit Sub
+        End If
+        Dim markPic As Bitmap
+        Select Case typeType
+            Case 0 '单位
+                If isHero = True Then
+                    Select Case rareType
+                        Case 2
+                            markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\HU-R.png")
+                        Case 3
+                            markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\HU-S.png")
+                    End Select
+                    Exit Select
+                End If
+                Select Case rareType
+                    Case 0
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\U-N.png")
+                    Case 1
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\U-E.png")
+                    Case 2
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\U-R.png")
+                    Case 3
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\U-S.png")
+                End Select
+            Case 1 '造物
+                If isHero = True Then
+                    Select Case rareType
+                        Case 2
+                            markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\HT-R.png")
+                        Case 3
+                            markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\HT-S.png")
+                    End Select
+                    Exit Select
+                End If
+                Select Case rareType
+                    Case 0
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\T-N.png")
+                    Case 1
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\T-E.png")
+                    Case 2
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\T-R.png")
+                    Case 3
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\T-S.png")
+                End Select
+            Case 2 '动作
+                Select Case rareType
+                    Case 0
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\US-N.png")
+                    Case 1
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\US-E.png")
+                    Case 2
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\US-R.png")
+                    Case 3
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\US-S.png")
+                End Select
+            Case 3 '法术
+                Select Case rareType
+                    Case 0
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\S-N.png")
+                    Case 1
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\S-E.png")
+                    Case 2
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\S-R.png")
+                    Case 3
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\S-S.png")
+                End Select
+            Case 4 '结界
+                Select Case rareType
+                    Case 0
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\E-N.png")
+                    Case 1
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\E-E.png")
+                    Case 2
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\E-R.png")
+                    Case 3
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\E-S.png")
+                End Select
+            Case 5 '装备
+                If isHero = True Then
+                    Select Case rareType
+                        Case 2
+                            markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\HA-R.png")
+                        Case 3
+                            markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\HA-S.png")
+                    End Select
+                    Exit Select
+                End If
+                Select Case rareType
+                    Case 0
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\A-N.png")
+                    Case 1
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\A-E.png")
+                    Case 2
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\A-R.png")
+                    Case 3
+                        markPic = Bitmap.FromFile(Application.StartupPath & "\CardBound\Marks\A-S.png")
+                End Select
+        End Select
+        markDRect = New Rectangle(MARKX, MARKY, markPic.Width / 2, markPic.Height / 2)
+        GwP = Graphics.FromImage(BwP)
+        'Dim costE As Bitmap
+        'costE = Bitmap.FromFile(Application.StartupPath & "\CardBound\Cost\E-S-B.png")
+
+        GwP.DrawImage(markPic, markDRect)
+        marked = True
+        GwP.Dispose()
+        OtB = New Bitmap(BwP)
+        Form1.PicCard.Image = OtB
+    End Sub
 
 End Module
