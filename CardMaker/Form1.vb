@@ -311,7 +311,7 @@ Public Class Form1
         If SFDCardFPic.ShowDialog = Windows.Forms.DialogResult.OK Then
             Dim savAddress As String = SFDCardFPic.FileName
             Call SavXML(savAddress)
-            MsgBox("已导出至" & savAddress)
+            MsgBox("已导出至" & savAddress,, "导出成功")
         End If
     End Sub
 

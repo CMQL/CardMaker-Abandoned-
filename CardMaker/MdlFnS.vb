@@ -53,6 +53,7 @@
 
 
     Public Const FLL = "暂定第一行七字" '行总长计算文本
+
     Public Const SLL = "第二行九字是七加二"
     Public Const TLL = "三行比二行多二字十一字"
     Public Const QLL = "四行超过三行二十一多二十三"
@@ -62,6 +63,9 @@
     Public costBoardPic As Bitmap
     Public costBoardGraph As Graphics
     '
+
+
+
 
 
     Public CdP As Bitmap '卡图
@@ -361,8 +365,8 @@
                 Cbrush = New SolidBrush(Color.Black)
             End If
             DrawTextOutlined(numCost, GwP, Cfont, Cbrush, CPen, costRect)
-            Else
-                GwP.DrawImage(costC, costRect, costSourceCleanRect, GraphicsUnit.Pixel)
+        Else
+            GwP.DrawImage(costC, costRect, costSourceCleanRect, GraphicsUnit.Pixel)
         End If
 
 
@@ -670,10 +674,13 @@
 
             Case 7'描述
             Case 8 '卡图
+
                 If IsNothing(CdP) = True Then
                     Exit Sub
                 End If
                 Dim recC As New Rectangle(PICX, PICY, PICW, PICH)
+
+
                 GwP.DrawImage(CdP, recC)
                 OtB = New Bitmap(BwP)
                 Form1.PicCard.Image = OtB
