@@ -59,6 +59,7 @@
     Public Const QLL = "四行超过三行二十一多二十三"
     Public Const CLL = "五行最多比四行多二十三到十五"
     '
+=========
 
     Public costBoardPic As Bitmap
     Public costBoardGraph As Graphics
@@ -672,7 +673,6 @@
 
                 '*************************************************
 
-            Case 7'描述
             Case 8 '卡图
 
                 If IsNothing(CdP) = True Then
@@ -684,6 +684,7 @@
                 GwP.DrawImage(CdP, recC)
                 OtB = New Bitmap(BwP)
                 Form1.PicCard.Image = OtB
+                        Form1.PicCard.Image = OtB
         End Select
         GwP.Dispose()
         OtB = New Bitmap(BwP)
