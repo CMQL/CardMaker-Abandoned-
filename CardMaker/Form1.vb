@@ -91,6 +91,11 @@ Public Class Form1
         OFDCardIPic.InitialDirectory = Application.StartupPath
         OFDCardIPic.RestoreDirectory = False
 
+        OFDXML.Filter = "XML Files|*.xml"
+        OFDXML.FilterIndex = 1
+        OFDXML.InitialDirectory = Application.StartupPath
+        OFDXML.RestoreDirectory = False
+
         PicCard.SizeMode = PictureBoxSizeMode.StretchImage
         CdB = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB.png")
         CdB4C = Bitmap.FromFile(Application.StartupPath & "\CardBound\CB-O.png")
@@ -482,5 +487,13 @@ Public Class Form1
         Else
             CleanMark()
         End If
+    End Sub
+
+    Private Sub CmdImport_Click(sender As Object, e As EventArgs) Handles CmdImport.Click
+        If OFDXML.ShowDialog() = DialogResult.OK Then
+            Dim addr As String = OFDXML.FileName
+            Call LoadXML(addr)
+        End If
+
     End Sub
 End Class

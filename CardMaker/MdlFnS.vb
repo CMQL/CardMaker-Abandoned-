@@ -53,20 +53,14 @@
 
 
     Public Const FLL = "暂定第一行七字" '行总长计算文本
-
     Public Const SLL = "第二行九字是七加二"
     Public Const TLL = "三行比二行多二字十一字"
     Public Const QLL = "四行超过三行二十一多二十三"
     Public Const CLL = "五行最多比四行多二十三到十五"
-    '
 
     Public costBoardPic As Bitmap
+
     Public costBoardGraph As Graphics
-    '
-
-
-
-
 
     Public CdP As Bitmap '卡图
     Public GcP As Graphics '图刷
@@ -672,7 +666,6 @@
 
                 '*************************************************
 
-            Case 7'描述
             Case 8 '卡图
 
                 If IsNothing(CdP) = True Then
@@ -680,9 +673,9 @@
                 End If
                 Dim recC As New Rectangle(PICX, PICY, PICW, PICH)
 
-
                 GwP.DrawImage(CdP, recC)
                 OtB = New Bitmap(BwP)
+                Form1.PicCard.Image = OtB
                 Form1.PicCard.Image = OtB
         End Select
         GwP.Dispose()
@@ -723,16 +716,22 @@
             xmlW.WriteAttributeString("ATK", Form1.TxtATK.Text)
             xmlW.WriteAttributeString("DEF", Form1.TxtDEF.Text)
             xmlW.WriteEndElement()
-            xmlW.WriteStartElement("Card_Pic") '需要写入图片
+            xmlW.WriteStartElement("Pic") '需要写入图片
             Using mS4P As IO.MemoryStream = New IO.MemoryStream()
                 CdP.Save(mS4P, Drawing.Imaging.ImageFormat.Png) '卡图
-                Dim picdata As Byte() = mS4P.ToArray()
-                xmlW.WriteBase64(picdata, 0, picdata.Length)
+                'Dim picdata As Byte() = mS4P.ToArray()
+                Dim picdata As Byte() = mS4P.GetBuffer
+                Dim Bpicdata As String = Convert.ToBase64String(picdata)
+                xmlW.WriteAttributeString("Pic", Bpicdata)
             End Using
+            xmlW.WriteEndElement()
+            xmlW.WriteStartElement("Card_Pic")
             Using mS4C As IO.MemoryStream = New IO.MemoryStream()
                 OtB.Save(mS4C, Drawing.Imaging.ImageFormat.Png) '整卡
-                Dim picdata As Byte() = mS4C.ToArray()
-                xmlW.WriteBase64(picdata, 0, picdata.Length)
+                'Dim picdata As Byte() = mS4C.ToArray()
+                Dim picdata As Byte() = mS4C.GetBuffer
+                Dim Bpicdata As String = Convert.ToBase64String(picdata)
+                xmlW.WriteAttributeString("CardPic", Bpicdata)
             End Using
             xmlW.WriteEndElement()
             xmlW.WriteStartElement("Type_and_Rare_Mark")
@@ -882,4 +881,122 @@
         Form1.PicCard.Image = OtB
     End Sub
 
+    Public Sub LoadXML(ByVal addr As String)
+        Dim xmlRS As Xml.XmlReaderSettings = New Xml.XmlReaderSettings()
+        'Dim xmlWS As Xml.XmlWriterSettings = New Xml.XmlWriterSettings()
+        'xmlWS.Indent = True
+        'xmlWS.NewLineOnAttributes = True
+        Using readCardInfo As Xml.XmlReader = Xml.XmlReader.Create(addr, xmlRS)
+            While readCardInfo.Read()
+                'If readCardInfo.Name = "Card_Pic" Then
+                '    Dim cPicB As Byte() = System.Convert.FromBase64String(readCardInfo.Value)
+
+                '    Dim cPicS As IO.MemoryStream = New IO.MemoryStream(cPicB)
+                '    Dim cPic As Bitmap = Image.FromStream(cPicS)
+                'End If
+                'If readCardInfo.Name = "Pic" Then
+
+                '    Dim picB As String = readCardInfo.Value
+                '    MsgBox(picB)
+                '    Dim cPicB As Byte() = System.Convert.FromBase64String(picB)
+
+                '    Dim cPicS As New IO.MemoryStream(cPicB)
+                '    Dim cPic As Image = Image.FromStream(cPicS)
+                '    Call DrawCard(CARD)
+                'End If
+                While readCardInfo.MoveToNextAttribute
+                    Select Case readCardInfo.Name
+                        Case "Name"
+                            Form1.TxtName.Text = readCardInfo.Value
+                        Case "Any"
+                            Form1.TxtAny.Text = readCardInfo.Value
+                        Case "East"
+                            If Left(readCardInfo.Value, 4) = "True" Then
+                                Form1.ChkE.Checked = True
+                                Form1.TxtE.Text = Mid(readCardInfo.Value, 4, readCardInfo.Value.Length - 4)
+                            End If
+                        Case "God"
+                            If Left(readCardInfo.Value, 4) = "True" Then
+                                Form1.ChkG.Checked = True
+                                Form1.TxtG.Text = Mid(readCardInfo.Value, 4, readCardInfo.Value.Length - 4)
+                            End If
+                        Case "Fight"
+                            If Left(readCardInfo.Value, 4) = "True" Then
+                                Form1.ChkF.Checked = True
+                                Form1.TxtF.Text = Mid(readCardInfo.Value, 4, readCardInfo.Value.Length - 4)
+                            End If
+                        Case "Magic"
+                            If Left(readCardInfo.Value, 4) = "True" Then
+                                Form1.ChkM.Checked = True
+                                Form1.TxtM.Text = Mid(readCardInfo.Value, 4, readCardInfo.Value.Length - 4)
+                            End If
+                        Case "Tech"
+                            If Left(readCardInfo.Value, 4) = "True" Then
+                                Form1.ChkT.Checked = True
+                                Form1.TxtT.Text = Mid(readCardInfo.Value, 4, readCardInfo.Value.Length - 4)
+                            End If
+                        Case "HP"
+                            Form1.TxtHP.Text = readCardInfo.Value
+                        Case "MP"
+                            Form1.TxtMP.Text = readCardInfo.Value
+                        Case "ATK"
+                            Form1.TxtATK.Text = readCardInfo.Value
+                        Case "DEF"
+                            Form1.TxtDEF.Text = readCardInfo.Value
+                        Case "Pic"
+                            'Dim picB As String = readCardInfo.Value
+                            'MsgBox(picB)
+                            Dim cPicB As Byte() = System.Convert.FromBase64String(readCardInfo.Value)
+
+                            Dim cPicS As IO.MemoryStream = New IO.MemoryStream(cPicB)
+                            Dim cPic As Bitmap = Image.FromStream(cPicS)
+                            CdP = New Bitmap(cPic)
+                            Call DrawCard(CARD)
+                        Case "CardPic"
+                            'Dim cPicB As Byte() = System.Convert.FromBase64String(readCardInfo.Value)
+
+                            'Dim cPicS As IO.MemoryStream = New IO.MemoryStream(cPicB)
+                            'Dim cPic As Bitmap = Image.FromStream(cPicS)
+
+                        Case "Rare"
+                            Select Case readCardInfo.Value
+                                Case 0
+                                    Form1.RadioN.Checked = True
+                                Case 1
+                                    Form1.RadioE.Checked = True
+                                Case 2
+                                    Form1.RadioR.Checked = True
+                                Case 3
+                                    Form1.RadioS.Checked = True
+                            End Select
+                        Case "Type"
+                            Select Case readCardInfo.Value
+                                Case 0
+                                    Form1.RadioUnit.Checked = True
+                                Case 1
+                                    Form1.RadioTool.Checked = True
+                                Case 2
+                                    Form1.RadioAction.Checked = True
+                                Case 3
+                                    Form1.RadioSocery.Checked = True
+                                Case 4
+                                    Form1.RadioEnchantment.Checked = True
+                                Case 5
+                                    Form1.RadioArmor.Checked = True
+                            End Select
+                        Case "isHero"
+                            If readCardInfo.Value = True Then
+                                Form1.ChkHero.Checked = True
+                            Else
+                                Form1.ChkHero.Checked = False
+                            End If
+                        Case "Effect"
+                            Form1.TxtEffect.Text = readCardInfo.Value
+                        Case "Description"
+                            Form1.TxtDescribe.Text = readCardInfo.Value
+                    End Select
+                End While
+            End While
+        End Using
+    End Sub
 End Module

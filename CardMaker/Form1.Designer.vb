@@ -75,6 +75,8 @@ Partial Class Form1
         Me.CmdMake = New System.Windows.Forms.Button()
         Me.CmdClear = New System.Windows.Forms.Button()
         Me.FBDCardPic = New System.Windows.Forms.FolderBrowserDialog()
+        Me.CmdImport = New System.Windows.Forms.Button()
+        Me.OFDXML = New System.Windows.Forms.OpenFileDialog()
         Me.GrpCardInfo.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.GrpCard.SuspendLayout()
@@ -607,11 +609,26 @@ Partial Class Form1
         Me.CmdClear.Text = "清空"
         Me.CmdClear.UseVisualStyleBackColor = True
         '
+        'CmdImport
+        '
+        Me.CmdImport.Font = New System.Drawing.Font("微软雅黑", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.CmdImport.Location = New System.Drawing.Point(510, 677)
+        Me.CmdImport.Name = "CmdImport"
+        Me.CmdImport.Size = New System.Drawing.Size(157, 61)
+        Me.CmdImport.TabIndex = 4
+        Me.CmdImport.Text = "导入"
+        Me.CmdImport.UseVisualStyleBackColor = True
+        '
+        'OFDXML
+        '
+        Me.OFDXML.FileName = "OpenFileDialog1"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1087, 750)
+        Me.Controls.Add(Me.CmdImport)
         Me.Controls.Add(Me.CmdClear)
         Me.Controls.Add(Me.CmdMake)
         Me.Controls.Add(Me.GrpCard)
@@ -681,4 +698,6 @@ Partial Class Form1
     Friend WithEvents RadioR As RadioButton
     Friend WithEvents RadioE As RadioButton
     Friend WithEvents RadioN As RadioButton
+    Friend WithEvents CmdImport As Button
+    Friend WithEvents OFDXML As OpenFileDialog
 End Class
